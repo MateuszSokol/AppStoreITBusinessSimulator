@@ -1,4 +1,4 @@
-package com.company.mateuszsCompany;
+package com.company.characters;
 
 import com.company.Abilities;
 
@@ -9,12 +9,14 @@ public class Boss {
     String bossLastName;
     Double cash;
     public Abilities [] bossAbilities;
+    Integer numberOfEmployee;
 
 
-    public Boss(String bossName, String bossLastName) {
+    public Boss(String bossName, String bossLastName,Integer numberOfEmployee) {
         this.bossName = bossName;
         this.bossLastName = bossLastName;
         this.bossAbilities = new Abilities[5];
+        this.numberOfEmployee = numberOfEmployee;
     }
 
     public void insertAbilitiesToBoss(Boss boss){

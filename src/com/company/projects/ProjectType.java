@@ -1,7 +1,7 @@
 package com.company.projects;
 
-public enum ProjectTypes {
-    SIMPLE,
+public enum ProjectType {
+    BEGINNER,
     INTERMEDIATE,
     ELABORATE;
 }
