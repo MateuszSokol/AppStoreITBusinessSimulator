@@ -6,7 +6,7 @@ import com.company.characters.Client;
 import java.util.Date;
 import java.util.Random;
 
-public abstract class Project {
+public class Project {
     String projectName;
     ProjectType projectType;
     Integer workDaysAtTechnology;
