@@ -3,14 +3,13 @@ package com.company.projects;
 import com.company.Abilities;
 import com.company.characters.Client;
 
-import java.util.Date;
-import java.util.Random;
+import java.util.*;
 
-public class Project {
+public abstract class Project {
     String projectName;
     ProjectType projectType;
     Integer workDaysAtTechnology;
-    Abilities [] neededAbilities;
+   Abilities [] abilities;
     Client client;
     Double clientPayment;
     Date deadline;
@@ -18,7 +17,7 @@ public class Project {
     Integer amountOfDaysWaitingForPayment;
     Integer workersAmount;
 
-    public Project(String projectName, ProjectType projectType, Integer workersAmount) {
+    public Project(String projectName, ProjectType projectType, Integer workersAmount,Client client) {
         this.projectName = projectName;
         this.projectType = projectType;
         this.workersAmount = workersAmount;
@@ -27,17 +26,86 @@ public class Project {
 
     public void setNeededAbilities(Project project){
         Random random = new Random();
+        int a =0;
+        EnumSet<Abilities> abilitiesEnumSet = EnumSet.noneOf(Abilities.class);
+
         if(project.projectType ==ProjectType.BEGINNER){
-            int a = random.nextInt(1,2);
-            this.neededAbilities = new Abilities[a];
+             a = random.nextInt(1,3);
+
+            for (int i = 0; i <a ; i++) {
+
+                abilitiesEnumSet.add(Abilities.values()[new Random().nextInt(Abilities.values().length)]);
+            }
+
+            project.abilities = new Abilities[abilitiesEnumSet.size()];
+            abilitiesEnumSet.toArray(project.abilities);
+
+            
         }else if(project.projectType ==ProjectType.INTERMEDIATE){
-            int b = random.nextInt(2,4);
-            this.neededAbilities = new Abilities[b];
+            a = random.nextInt(2,5);
+
+            for (int i = 0; i <a ; i++) {
+
+                abilitiesEnumSet.add(Abilities.values()[new Random().nextInt(Abilities.values().length)]);
+            }
+
+            project.abilities = new Abilities[abilitiesEnumSet.size()];
+            abilitiesEnumSet.toArray(project.abilities);
+
+
         }else if(project.projectType == ProjectType.ELABORATE){
-            int c = random.nextInt(3,6);
-            this.neededAbilities = new Abilities[c];
+            a = random.nextInt(4,7);
+            for (int i = 0; i <= a ; i++) {
+
+                abilitiesEnumSet.add(Abilities.values()[new Random().nextInt(Abilities.values().length)]);
+            }
+
+            project.abilities = new Abilities[abilitiesEnumSet.size()];
+            abilitiesEnumSet.toArray(project.abilities);
+            for (Abilities ac:project.abilities)
+             {
+                System.out.println(ac);
+            }
+
+            }
+
         }
+
+    public String getProjectName() {
+        return projectName;
     }
 
+    public ProjectType getProjectType() {
+        return projectType;
+    }
+
+    public Integer getWorkDaysAtTechnology() {
+        return workDaysAtTechnology;
+    }
+
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Double getClientPayment() {
+        return clientPayment;
+    }
+
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public Double getForfeitForCrossingDeadline() {
+        return forfeitForCrossingDeadline;
+    }
+
+    public Integer getAmountOfDaysWaitingForPayment() {
+        return amountOfDaysWaitingForPayment;
+    }
+
+    public Integer getWorkersAmount() {
+        return workersAmount;
+    }
 
 }
