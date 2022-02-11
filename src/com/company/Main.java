@@ -4,6 +4,7 @@ import com.company.characters.Boss;
 import com.company.characters.Client;
 import com.company.projects.BeginnerProject;
 import com.company.projects.ElaborateProject;
+import com.company.projects.IntermidateProject;
 import com.company.projects.ProjectType;
 
 import java.util.Calendar;
@@ -34,17 +35,18 @@ public class Main {
 
         BeginnerProject project = new BeginnerProject("FirstProject", ProjectType.BEGINNER,0,client);
         ElaborateProject elaborateProject = new ElaborateProject("Elaborate",ProjectType.ELABORATE,0,client);
-
+        IntermidateProject intermidateProject = new IntermidateProject("Intermediate",ProjectType.INTERMEDIATE,0,client);
 
 
         project.setNeededAbilities(project);
         project.setNeededAbilities(elaborateProject);
+        project.setNeededAbilities(intermidateProject);
 
-     /*   for (Abilities a:elaborateProject.abilities
+      for (Abilities a:intermidateProject.abilities
              ) {
             System.out.println(a);
         }
-        System.out.println(project.abilities.length);*/
+        System.out.println(project.abilities.length);
        // System.out.println(me.getCash());
     }
 }

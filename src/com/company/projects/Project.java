@@ -9,7 +9,7 @@ public abstract class Project {
     String projectName;
     ProjectType projectType;
     Integer workDaysAtTechnology;
-   Abilities [] abilities;
+ public  Abilities [] abilities;
     Client client;
     Double clientPayment;
     Date deadline;
@@ -17,13 +17,14 @@ public abstract class Project {
     Integer amountOfDaysWaitingForPayment;
     Integer workersAmount;
 
-    public Project(String projectName, ProjectType projectType, Integer workersAmount,Client client) {
+
+
+    public Project(String projectName, ProjectType projectType, Integer workersAmount, Client client) {
         this.projectName = projectName;
         this.projectType = projectType;
         this.workersAmount = workersAmount;
 
     }
-
     public void setNeededAbilities(Project project){
         Random random = new Random();
         int a =0;
@@ -36,39 +37,27 @@ public abstract class Project {
 
                 abilitiesEnumSet.add(Abilities.values()[new Random().nextInt(Abilities.values().length)]);
             }
-
             project.abilities = new Abilities[abilitiesEnumSet.size()];
             abilitiesEnumSet.toArray(project.abilities);
-
-            
         }else if(project.projectType ==ProjectType.INTERMEDIATE){
-            a = random.nextInt(2,5);
+            a = random.nextInt(3,5);
 
             for (int i = 0; i <a ; i++) {
 
                 abilitiesEnumSet.add(Abilities.values()[new Random().nextInt(Abilities.values().length)]);
             }
-
             project.abilities = new Abilities[abilitiesEnumSet.size()];
             abilitiesEnumSet.toArray(project.abilities);
-
-
         }else if(project.projectType == ProjectType.ELABORATE){
             a = random.nextInt(4,7);
             for (int i = 0; i <= a ; i++) {
 
                 abilitiesEnumSet.add(Abilities.values()[new Random().nextInt(Abilities.values().length)]);
             }
-
             project.abilities = new Abilities[abilitiesEnumSet.size()];
             abilitiesEnumSet.toArray(project.abilities);
-            for (Abilities ac:project.abilities)
-             {
-                System.out.println(ac);
-            }
 
             }
-
         }
 
     public String getProjectName() {
@@ -108,4 +97,27 @@ public abstract class Project {
         return workersAmount;
     }
 
+    public void setWorkDaysAtTechnology(Integer workDaysAtTechnology) {
+        this.workDaysAtTechnology = workDaysAtTechnology;
+    }
+
+    public void setAbilities(Abilities[] abilities) {
+        this.abilities = abilities;
+    }
+
+    public void setClientPayment(Double clientPayment) {
+        this.clientPayment = clientPayment;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public void setForfeitForCrossingDeadline(Double forfeitForCrossingDeadline) {
+        this.forfeitForCrossingDeadline = forfeitForCrossingDeadline;
+    }
+
+    public void setAmountOfDaysWaitingForPayment(Integer amountOfDaysWaitingForPayment) {
+        this.amountOfDaysWaitingForPayment = amountOfDaysWaitingForPayment;
+    }
 }
