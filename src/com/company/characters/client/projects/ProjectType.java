@@ -1,4 +1,4 @@
-package com.company.projects;
+package com.company.characters.client.projects;
 
 public enum ProjectType {
     BEGINNER,

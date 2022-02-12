@@ -1,6 +1,6 @@
-package com.company.projects;
+package com.company.characters.client.projects;
 
-import com.company.characters.Client;
+import com.company.characters.client.Client;
 
 public class ElaborateProject extends Project{
     public ElaborateProject(String projectName, ProjectType projectType, Integer workersAmount, Client client) {

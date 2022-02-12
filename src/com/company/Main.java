@@ -1,14 +1,14 @@
 package com.company;
 
 import com.company.characters.Boss;
-import com.company.characters.Client;
-import com.company.projects.BeginnerProject;
-import com.company.projects.ElaborateProject;
-import com.company.projects.IntermidateProject;
-import com.company.projects.ProjectType;
+import com.company.characters.client.Client;
+import com.company.characters.client.LazyClient;
+import com.company.characters.client.projects.BeginnerProject;
+import com.company.characters.client.projects.ElaborateProject;
+import com.company.characters.client.projects.IntermidateProject;
+import com.company.characters.client.projects.ProjectType;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -23,7 +23,9 @@ public class Main {
         int turnCounter =0 ;
 
         Boss me = new Boss("Matt","Sprout",0);
-        Client client = new Client();
+
+        LazyClient lazyClient = new LazyClient();
+        /*Client client = new Client();*/
 
 //zapelnic tablice liczbami od 1-6
 
@@ -33,20 +35,21 @@ public class Main {
         me.insertAbilitiesToBoss(me);
         System.out.println(live.getTime());
 
-        BeginnerProject project = new BeginnerProject("FirstProject", ProjectType.BEGINNER,0,client);
-        ElaborateProject elaborateProject = new ElaborateProject("Elaborate",ProjectType.ELABORATE,0,client);
-        IntermidateProject intermidateProject = new IntermidateProject("Intermediate",ProjectType.INTERMEDIATE,0,client);
+        BeginnerProject project = new BeginnerProject("FirstProject", ProjectType.BEGINNER,0,lazyClient);
+        ElaborateProject elaborateProject = new ElaborateProject("Elaborate",ProjectType.ELABORATE,0,lazyClient);
+        //creating Intermediate project
+        IntermidateProject intermidateProject = new IntermidateProject("Intermediate",ProjectType.INTERMEDIATE,0,lazyClient);
+        intermidateProject.setNeededAbilities(intermidateProject);
 
 
-        project.setNeededAbilities(project);
-        project.setNeededAbilities(elaborateProject);
-        project.setNeededAbilities(intermidateProject);
 
-      for (Abilities a:intermidateProject.abilities
-             ) {
-            System.out.println(a);
-        }
-        System.out.println(project.abilities.length);
+
+        intermidateProject.showTechnologiesAndWorkDaysTime(intermidateProject);
+
+
+
+
+
        // System.out.println(me.getCash());
     }
 }

@@ -1,4 +1,4 @@
-package com.company.characters;
+package com.company.characters.client;
 
 public enum ClientTypes {
     LAZY,

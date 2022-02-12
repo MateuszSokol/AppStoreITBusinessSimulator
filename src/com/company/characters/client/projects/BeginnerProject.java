@@ -1,6 +1,6 @@
-package com.company.projects;
+package com.company.characters.client.projects;
 
-import com.company.characters.Client;
+import com.company.characters.client.Client;
 
 public class BeginnerProject  extends Project{
 
