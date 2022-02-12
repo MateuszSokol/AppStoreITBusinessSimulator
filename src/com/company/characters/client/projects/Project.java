@@ -12,17 +12,19 @@ public abstract class Project {
  public  Abilities [] abilities;
     Client client;
     Double clientPayment;
-    Date deadline;
+    Integer deadline;
     Double forfeitForCrossingDeadline;
     Integer amountOfDaysWaitingForPayment;
     Integer workersAmount;
 
 
 
-    public Project(String projectName, ProjectType projectType, Integer workersAmount, Client client) {
+    public Project(String projectName, ProjectType projectType, Integer workersAmount,Integer deadlineDays,Double forfeitForCrossingDeadline) {
         this.projectName = projectName;
         this.projectType = projectType;
         this.workersAmount = workersAmount;
+        this.deadline = deadlineDays;
+        this.forfeitForCrossingDeadline = forfeitForCrossingDeadline;
 
     }
     public void setNeededAbilities(Project project) {
@@ -78,13 +80,14 @@ public abstract class Project {
         }
     }
 
-    public void showTechnologiesAndWorkDaysTime(Project project){
-        for (int i = 0; i <project.workDaysAtTechnology.length; i++) {
-            if(project.abilities[i] != null){
+    public void showTechnologiesAndWorkDaysTime(){
+        for (int i = 0; i <workDaysAtTechnology.length; i++) {
+            if(abilities[i] != null){
                 System.out.println(abilities[i] + " -- " + workDaysAtTechnology[i] +" days");
             }
         }
     }
+
 
 
     public String getProjectName() {
@@ -105,9 +108,7 @@ public abstract class Project {
         return clientPayment;
     }
 
-    public Date getDeadline() {
-        return deadline;
-    }
+
 
     public Double getForfeitForCrossingDeadline() {
         return forfeitForCrossingDeadline;
@@ -129,17 +130,10 @@ public abstract class Project {
         this.clientPayment = clientPayment;
     }
 
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
-    }
-
-    public void setForfeitForCrossingDeadline(Double forfeitForCrossingDeadline) {
-        this.forfeitForCrossingDeadline = forfeitForCrossingDeadline;
-    }
-
     public void setAmountOfDaysWaitingForPayment(Integer amountOfDaysWaitingForPayment) {
         this.amountOfDaysWaitingForPayment = amountOfDaysWaitingForPayment;
     }
+
 
 
 }

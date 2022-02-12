@@ -9,5 +9,13 @@ public abstract class Client {
     ClientTypes clientType;
     ArrayList<Project> clientProject;
 
+    public Client(String clientCompanyName, ClientTypes clientType) {
+        this.clientCompanyName = clientCompanyName;
+        this.clientType = clientType;
+    }
+
+    public void addProjectToClient(Project project){
+        clientProject.add(project);
+    }
 
 }
