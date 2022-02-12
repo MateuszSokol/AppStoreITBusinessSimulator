@@ -135,5 +135,21 @@ public abstract class Project {
     }
 
 
+    /*String projectName;
+    ProjectType projectType;
+    Integer [] workDaysAtTechnology;
+    public  Abilities [] abilities;
+    Client client;
+    Double clientPayment;
+    Integer deadline;
+    Double forfeitForCrossingDeadline;
+    Integer amountOfDaysWaitingForPayment;
+    Integer workersAmount;*/
+    public String toString(){
+
+        return projectName + " " + projectType;
+    }
+
+
 
 }

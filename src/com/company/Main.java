@@ -24,6 +24,7 @@ public class Main {
         int turnCounter = 0;
         boolean isGameRunning = true;
 
+        ArrayList<Project> bossProjectList = new ArrayList<>();
         Boss me = new Boss("Matt", "Sprout", TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
 
@@ -39,6 +40,7 @@ public class Main {
         //creating projects
         // creating beginner project
         BeginnerProject project = new BeginnerProject("FirstProject", ProjectType.BEGINNER, 0, 3, 10.0);
+        project.setNeededAbilities(project);
         //creating Intermediate project
         Intermediate intermediateProject = new Intermediate("Intermediate", ProjectType.INTERMEDIATE, 0, 9, 1000.0);
         intermediateProject.setNeededAbilities(intermediateProject);
@@ -48,6 +50,8 @@ public class Main {
         projectArrayList.add(project);
         projectArrayList.add(intermediateProject);
         projectArrayList.add(elaborateProject);
+        me.setProjectList(bossProjectList);
+
 
 
         intermediateProject.showTechnologiesAndWorkDaysTime();
@@ -62,7 +66,7 @@ public class Main {
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
         while (isGameRunning) {
-
+            System.out.println("Turn: "+ turnCounter);
 
             System.out.println("Projects available: ");
 
@@ -79,14 +83,40 @@ public class Main {
 
 
                 System.out.println("As Boss you can only do beginner and intermediate projects");
-                System.out.println("Pick one of them");
+                System.out.println("Pick one of them typing index number");
+
+
+               int command = scanner.nextInt();
+
+            for (int i = 0; i < projectArrayList.size() ; i++) {
+                if(command ==(i+1)){
+                    System.out.println(projectArrayList.get(i).toString());
+                    projectArrayList.get(i).showTechnologiesAndWorkDaysTime();
+                    me.getProjectList().add(projectArrayList.get(i));
+
+                }
+            }
+
+            System.out.println("Your project list: ");
+            for (Project p:me.getProjectList()
+                 ) {
+                System.out.println(p.toString());
+            }
 
 
 
+
+            turnCounter++;
+            live.add(Calendar.DATE,1);
+
+            System.out.println(live.getTime());
+
+            System.out.println("If you want to exit type 0");
+            command = scanner.nextInt();
+            if(command ==0){
 
                 isGameRunning = false;
-
-
+            }
         }
 
 

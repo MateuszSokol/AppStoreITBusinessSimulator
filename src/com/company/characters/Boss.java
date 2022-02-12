@@ -10,11 +10,11 @@ import java.util.EnumSet;
 import java.util.Random;
 
 public class Boss extends Employee implements projectMaking {
-   TypesOfEmployee employeeType;
-    Double cash;
+    TypesOfEmployee employeeType;
+     Double cash;
     public Abilities [] bossAbilities;
     Integer numberOfEmployee;
-    ArrayList<Project>projectList;
+ ArrayList<Project>projectList;
 
 
 
@@ -45,6 +45,7 @@ public class Boss extends Employee implements projectMaking {
         calendar.add(Calendar.DAY_OF_MONTH,1);
 
     }
+
 
 
 
