@@ -5,6 +5,7 @@ import com.company.characters.TypesOfEmployee;
 import com.company.characters.client.ClientTypes;
 import com.company.characters.client.LazyClient;
 import com.company.characters.client.projects.*;
+import com.company.characters.client.projects.projectObjects.ProjectNamesPool;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +28,7 @@ public class Main {
         ArrayList<Project> bossProjectList = new ArrayList<>();
         Boss me = new Boss("Matt", "Sprout", TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
-
+        ArrayList<Project> projectArrayList = new ArrayList<>();
         //generate starting resources
         me.generateRandomCashAmount();
         me.insertAbilitiesToBoss();
@@ -39,22 +40,35 @@ public class Main {
 
         //creating projects
         // creating beginner project
-        BeginnerProject project = new BeginnerProject("FirstProject", ProjectType.BEGINNER, 0, 3, 10.0);
-        project.setNeededAbilities(project);
-        //creating Intermediate project
-        Intermediate intermediateProject = new Intermediate("Intermediate", ProjectType.INTERMEDIATE, 0, 9, 1000.0);
-        intermediateProject.setNeededAbilities(intermediateProject);
-        ElaborateProject elaborateProject = new ElaborateProject("Elaborate", ProjectType.ELABORATE, 0, 6, 100.0);
 
-        ArrayList<Project> projectArrayList = new ArrayList<>();
-        projectArrayList.add(project);
-        projectArrayList.add(intermediateProject);
-        projectArrayList.add(elaborateProject);
+        //generator
+
+
+        for (int i = 0; i <10 ; i++) {
+            Project project = new Project();
+            project.projectType();
+            System.out.println(project.getProjectType());
+            project.setNeededAbilities(project);
+            project.addRandomProjectNameFromEnum();
+            project.addRandomDaysWorkAtTechnologies(project);
+            project.calculatePayment();
+            project.calculateWorkerAmount();
+            project.calculateForfeitForCrossingDeadline();
+            projectArrayList.add(project);
+        }
+
+
+        for (Project p:projectArrayList
+             ) {
+            System.out.println(p.toString());
+        }
+
+
         me.setProjectList(bossProjectList);
 
 
 
-        intermediateProject.showTechnologiesAndWorkDaysTime();
+
 
         System.out.println("Your type: " + me.getEmployeeType());
         for (Abilities a : me.bossAbilities)
@@ -110,6 +124,8 @@ public class Main {
             live.add(Calendar.DATE,1);
 
             System.out.println(live.getTime());
+
+
 
             System.out.println("If you want to exit type 0");
             command = scanner.nextInt();

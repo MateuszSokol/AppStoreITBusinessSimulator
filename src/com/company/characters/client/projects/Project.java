@@ -1,16 +1,15 @@
 package com.company.characters.client.projects;
 
 import com.company.Abilities;
-import com.company.characters.client.Client;
+import com.company.characters.client.projects.projectObjects.ProjectNamesPool;
 
 import java.util.*;
 
-public abstract class Project {
-    String projectName;
+public class Project implements Calculate {
+    ProjectNamesPool projectName;
     ProjectType projectType;
     Integer [] workDaysAtTechnology;
  public  Abilities [] abilities;
-    Client client;
     Double clientPayment;
     Integer deadline;
     Double forfeitForCrossingDeadline;
@@ -19,14 +18,7 @@ public abstract class Project {
 
 
 
-    public Project(String projectName, ProjectType projectType, Integer workersAmount,Integer deadlineDays,Double forfeitForCrossingDeadline) {
-        this.projectName = projectName;
-        this.projectType = projectType;
-        this.workersAmount = workersAmount;
-        this.deadline = deadlineDays;
-        this.forfeitForCrossingDeadline = forfeitForCrossingDeadline;
 
-    }
     public void setNeededAbilities(Project project) {
         Random random = new Random();
         int a = 0;
@@ -87,22 +79,64 @@ public abstract class Project {
             }
         }
     }
+    @Override
+    public void calculatePayment(){
+        double d =0;
+        if(projectType.equals(ProjectType.BEGINNER))
+            d= new Random().nextDouble(5.0,20.0);
+        else if (projectType.equals(ProjectType.INTERMEDIATE))
+            d = new Random().nextDouble(20.0,40.0);
+        else if (projectType.equals(ProjectType.ELABORATE))
+            d = new Random().nextDouble(50.0,100.0);
 
-
-
-    public String getProjectName() {
-        return projectName;
+        d=Math.round(d*100.0)/100.0;
+       this.clientPayment = d;
     }
+    @Override
+    public void calculateWorkerAmount(){
+        Integer i = 0;
+
+        if(projectType.equals(ProjectType.BEGINNER))
+            i= 1;
+        else if (projectType.equals(ProjectType.INTERMEDIATE))
+            i = new Random().nextInt(1,3);
+        else if (projectType.equals(ProjectType.ELABORATE))
+            i = new Random().nextInt(2,5);
+
+       this.workersAmount = i;
+    }
+    @Override
+    public void calculateForfeitForCrossingDeadline(){
+        double d =0;
+        if(projectType.equals(ProjectType.BEGINNER))
+            d= new Random().nextDouble(2.0,5.0);
+        else if (projectType.equals(ProjectType.INTERMEDIATE))
+            d = new Random().nextDouble(10.0,20.0);
+        else if (projectType.equals(ProjectType.ELABORATE))
+            d = new Random().nextDouble(30.0,50.0);
+
+        d=Math.round(d*100.0)/100.0;
+       this.forfeitForCrossingDeadline =d;
+    }
+    public void addRandomProjectNameFromEnum(){
+        ProjectNamesPool b;
+        b =  ProjectNamesPool.values()[new Random().nextInt(ProjectNamesPool.values().length)];
+        this.projectName =b;
+    }
+
+    public void projectType(){
+        ProjectType p;
+        p =ProjectType.values()[new Random().nextInt(ProjectType.values().length)];
+        this.projectType = p;
+
+    }
+
+
 
     public ProjectType getProjectType() {
         return projectType;
     }
 
-
-
-    public Client getClient() {
-        return client;
-    }
 
     public Double getClientPayment() {
         return clientPayment;
@@ -135,16 +169,7 @@ public abstract class Project {
     }
 
 
-    /*String projectName;
-    ProjectType projectType;
-    Integer [] workDaysAtTechnology;
-    public  Abilities [] abilities;
-    Client client;
-    Double clientPayment;
-    Integer deadline;
-    Double forfeitForCrossingDeadline;
-    Integer amountOfDaysWaitingForPayment;
-    Integer workersAmount;*/
+
     public String toString(){
 
         return projectName + " " + projectType;
@@ -152,4 +177,9 @@ public abstract class Project {
 
 
 
-}
+
+    }
+
+
+
+
