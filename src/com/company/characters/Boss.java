@@ -1,5 +1,6 @@
 package com.company.characters;
 import com.company.Abilities;
+import com.company.Company;
 import com.company.characters.client.projects.Project;
 import com.company.projectMaking;
 
@@ -10,6 +11,7 @@ import java.util.EnumSet;
 import java.util.Random;
 
 public class Boss extends Employee implements projectMaking {
+    Company company;
     TypesOfEmployee employeeType;
      Double cash;
     public Abilities [] bossAbilities;
@@ -46,9 +48,13 @@ public class Boss extends Employee implements projectMaking {
 
     }
 
+    public Company getCompany() {
+        return company;
+    }
 
-
-
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 
     public void setCash(Double cash) {
         this.cash = cash;

@@ -28,10 +28,15 @@ public class Main {
         ArrayList<Project> bossProjectList = new ArrayList<>();
         Boss me = new Boss("Matt", "Sprout", TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
+        me.setCompany(null);
         ArrayList<Project> projectArrayList = new ArrayList<>();
+
+
         //generate starting resources
+
         me.generateRandomCashAmount();
         me.insertAbilitiesToBoss();
+        me.setProjectList(bossProjectList);
 
         System.out.println(live.getTime());
 
@@ -39,7 +44,7 @@ public class Main {
         LazyClient lazyClient = new LazyClient("company", ClientTypes.LAZY);
 
         //creating projects
-        // creating beginner project
+
 
         //generator
 
@@ -54,17 +59,20 @@ public class Main {
             project.calculatePayment();
             project.calculateWorkerAmount();
             project.calculateForfeitForCrossingDeadline();
+
             projectArrayList.add(project);
         }
 
 
+
         for (Project p:projectArrayList
              ) {
-            System.out.println(p.toString());
+            p.setDeadline(live);
+            System.out.println(p);
         }
 
 
-        me.setProjectList(bossProjectList);
+
 
 
 
@@ -103,7 +111,7 @@ public class Main {
                int command = scanner.nextInt();
 
             for (int i = 0; i < projectArrayList.size() ; i++) {
-                if(command ==(i+1)){
+                if(command == i && projectArrayList.get(i)!=null){
                     System.out.println(projectArrayList.get(i).toString());
                     projectArrayList.get(i).showTechnologiesAndWorkDaysTime();
                     me.getProjectList().add(projectArrayList.get(i));

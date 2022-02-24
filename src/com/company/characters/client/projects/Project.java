@@ -11,11 +11,11 @@ public class Project implements Calculate {
     Integer [] workDaysAtTechnology;
  public  Abilities [] abilities;
     Double clientPayment;
-    Integer deadline;
+    Calendar calendarDeadline;
     Double forfeitForCrossingDeadline;
     Integer amountOfDaysWaitingForPayment;
     Integer workersAmount;
-
+    ArrayList<Project> projectArrayList;
 
 
 
@@ -138,41 +138,35 @@ public class Project implements Calculate {
     }
 
 
-    public Double getClientPayment() {
-        return clientPayment;
+
+
+    public Date getDeadline() {
+        return calendarDeadline.getTime();
     }
 
+    public void setDeadline(Calendar calendar) {
+        Random r = new Random();
+        int d;
 
+        if(projectType.equals(ProjectType.ELABORATE)){
 
-    public Double getForfeitForCrossingDeadline() {
-        return forfeitForCrossingDeadline;
-    }
-
-    public Integer getAmountOfDaysWaitingForPayment() {
-        return amountOfDaysWaitingForPayment;
-    }
-
-    public Integer getWorkersAmount() {
-        return workersAmount;
-    }
-
-    public void setAbilities(Abilities[] abilities) {
-        this.abilities = abilities;
-    }
-
-    public void setClientPayment(Double clientPayment) {
-        this.clientPayment = clientPayment;
-    }
-
-    public void setAmountOfDaysWaitingForPayment(Integer amountOfDaysWaitingForPayment) {
-        this.amountOfDaysWaitingForPayment = amountOfDaysWaitingForPayment;
+            d = r.nextInt(5,10);
+            calendar.add(Calendar.DATE,d);
+        }else if(projectType.equals(ProjectType.INTERMEDIATE)){
+            d = r.nextInt(10,15);
+            calendar.add(Calendar.DATE,d);
+        }else if (projectType.equals(ProjectType.BEGINNER)){
+            d = r.nextInt(10,15);
+            calendar.add(Calendar.DATE,d);
+        }
+        this.calendarDeadline = calendar;
     }
 
 
 
     public String toString(){
 
-        return projectName + " " + projectType;
+        return projectName + " " + projectType + " "+ calendarDeadline.getTime();
     }
 
 
