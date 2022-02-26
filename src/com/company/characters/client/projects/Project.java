@@ -172,9 +172,10 @@ public class Project implements Calculate {
     }
 
 
-
-
+    public Abilities[] getAbilities() {
+        return abilities;
     }
+}
 
 
 

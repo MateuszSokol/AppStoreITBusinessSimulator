@@ -29,15 +29,14 @@ public class Main {
         me.setNumberOfEmployee(0);
         me.setCompany(null);
         ArrayList<Project> projectArrayList = new ArrayList<>();
-        me.insertAbilities();
+        me.abilityGenerator(me);
 
 
         //generate starting resources
 
-        me.generateRandomCashAmount();
+        me.setCash(me.generateRandomCashAmount());
         me.setProjectList(bossProjectList);
 
-        System.out.println(live.getTime());
 
         //creating client
         LazyClient lazyClient = new LazyClient("company", ClientTypes.LAZY);
@@ -54,10 +53,9 @@ public class Main {
         for (Project p : projectArrayList
         ) {
             p.setDeadline();
-            System.out.println(p);
+
         }
         live.set(2020, Calendar.JANUARY, 1);
-
 
 
 
@@ -67,9 +65,10 @@ public class Main {
 
 
 
+
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
-        while (isGameRunning) {
+   while (isGameRunning) {
             try {
                 System.out.println("Turn: " + turnCounter);
 
@@ -79,9 +78,12 @@ public class Main {
                 for (int i = 0; i < projectArrayList.size(); i++) {
 
                     if (me.getNumberOfEmployee() > 0) {
-                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType());
+                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " "+ Arrays.toString(projectArrayList.get(i).getAbilities()));
+
+
                     } else if (!projectArrayList.get(i).getProjectType().equals(ProjectType.ELABORATE)) {
-                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType());
+                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " "+ Arrays.toString(projectArrayList.get(i).getAbilities()));
+
 
                     }
                 }
@@ -93,10 +95,21 @@ public class Main {
 
                 int command = scanner.nextInt();
 
+                if(!me.check(projectArrayList.get(command-1))){
+                    System.out.println("You don't have some abilities better check it out");
+                    System.out.print(" "+ Arrays.toString(projectArrayList.get(command - 1).getAbilities()));
+                    System.out.println("Type 'cancel' to abort action otherwise type anything");
+                    String cancelAction = scanner.next();
+                    if(cancelAction.equals("cancel")){
+                        continue;
+                    }else{
+                        System.out.println("As u wish");
+                    }
+                }
+
 
                 for (int i = 0; i < projectArrayList.size(); i++) {
                     if (command == i + 1 && projectArrayList.get(i) != null && !projectArrayList.get(i).getProjectType().equals(ProjectType.ELABORATE)) {
-                        System.out.println(projectArrayList.get(i).toString());
                         projectArrayList.get(i).showTechnologiesAndWorkDaysTime();
                         me.getProjectList().add(projectArrayList.get(i));
 
@@ -118,6 +131,7 @@ public class Main {
 
 
                 System.out.println("If you want to exit type 0");
+
 
                 command = scanner.nextInt();
                 isGameRunning = exit(command);
@@ -150,7 +164,6 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             Project project = new Project();
             project.projectType();
-            System.out.println(project.getProjectType());
             project.setNeededAbilities(project);
             project.addRandomProjectNameFromEnum();
             project.addRandomDaysWorkAtTechnologies(project);
