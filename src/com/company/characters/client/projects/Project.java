@@ -1,6 +1,7 @@
 package com.company.characters.client.projects;
 
 import com.company.Abilities;
+import com.company.characters.Employee;
 import com.company.characters.client.projects.projectObjects.ProjectNamesPool;
 
 import java.util.*;
@@ -118,6 +119,9 @@ public class Project implements Calculate {
         d=Math.round(d*100.0)/100.0;
        this.forfeitForCrossingDeadline =d;
     }
+
+
+
     public void addRandomProjectNameFromEnum(){
         ProjectNamesPool b;
         b =  ProjectNamesPool.values()[new Random().nextInt(ProjectNamesPool.values().length)];
@@ -140,11 +144,9 @@ public class Project implements Calculate {
 
 
 
-    public Date getDeadline() {
-        return calendarDeadline.getTime();
-    }
 
-    public void setDeadline(Calendar calendar) {
+    public void setDeadline() {
+        Calendar calendar = Calendar.getInstance();
         Random r = new Random();
         int d;
 
@@ -165,8 +167,8 @@ public class Project implements Calculate {
 
 
     public String toString(){
-
-        return projectName + " " + projectType + " "+ calendarDeadline.getTime();
+        return "Project Name: "+projectName + " Project Type: " + projectType + " Client payment: " + clientPayment + " Value of forfeit for crossing Deadline:  " +
+                forfeitForCrossingDeadline + " Deadline:  " + calendarDeadline.getTime()+ " Amount of waiting days for payment: " + workersAmount ;
     }
 
 
