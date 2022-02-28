@@ -133,18 +133,19 @@ public class Project implements Calculate {
 
     public void setDeadline() {
         Calendar calendar = Calendar.getInstance();
+        calendar.set(2020,Calendar.JANUARY,0);
         Random r = new Random();
         int d;
 
         if(projectType.equals(ProjectType.ELABORATE)){
 
-            d = r.nextInt(5,10);
+            d = r.nextInt(3,5);
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
-            d = r.nextInt(10,15);
+            d = r.nextInt(2,5);
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
-            d = r.nextInt(10,15);
+            d = r.nextInt(4,8);
             calendar.add(Calendar.DATE,d);
         }
         this.calendarDeadline = calendar;
