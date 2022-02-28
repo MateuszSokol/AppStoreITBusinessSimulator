@@ -22,12 +22,4 @@ public abstract class Employee {
 
 
 
-
-
-    public Double generateRandomCashAmount(){
-        System.out.println("Generating random cash amount");
-        Random random = new Random();
-        return (double) Math.round(random.nextDouble(10, 100));
-    }
-
 }

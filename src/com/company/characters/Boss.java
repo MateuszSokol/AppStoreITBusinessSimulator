@@ -5,8 +5,11 @@ import com.company.characters.client.projects.Project;
 import com.company.projectMaking;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-public class Boss extends Employee implements projectMaking, InsertAbilities {
+public class Boss implements projectMaking{
+    String bossName;
+    String bossLastName;
     Company company;
     TypesOfEmployee employeeType;
     Double cash;
@@ -17,7 +20,8 @@ public class Boss extends Employee implements projectMaking, InsertAbilities {
 
     public Boss(String bossName, String bossLastName, TypesOfEmployee typesOfEmployee) {
 
-        super(bossName, bossLastName);
+        this.bossName = bossLastName;
+        this.bossLastName = bossLastName;
         this.employeeType = typesOfEmployee;
         this.abilities = new Abilities[5];
     }
@@ -92,17 +96,18 @@ public class Boss extends Employee implements projectMaking, InsertAbilities {
 
         }
     }
-
-
-    @Override
-    public void abilityGenerator(Employee employee) {
+    public void abilityGenerator() {
         abilities[0] = Abilities.BACKEND;
        abilities[1] = Abilities.FRONT_END;
        abilities[2] = Abilities.WORDPRESS;
        abilities[3] = Abilities.PRESTASHOP;
      abilities[4] = Abilities.DATA_BASE;
     }
-
+    public Double generateRandomCashAmount(){
+        System.out.println("Generating random cash amount");
+        Random random = new Random();
+        return (double) Math.round(random.nextDouble(10, 100));
+    }
 
 
     public void showAbilities(){

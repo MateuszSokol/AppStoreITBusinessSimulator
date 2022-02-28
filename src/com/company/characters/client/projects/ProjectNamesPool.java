@@ -1,4 +1,4 @@
-package com.company.characters.client.projects.projectObjects;
+package com.company.characters.client.projects;
 
 public enum ProjectNamesPool {
 

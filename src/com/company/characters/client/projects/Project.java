@@ -1,8 +1,6 @@
 package com.company.characters.client.projects;
 
 import com.company.Abilities;
-import com.company.characters.Employee;
-import com.company.characters.client.projects.projectObjects.ProjectNamesPool;
 
 import java.util.*;
 
@@ -16,8 +14,6 @@ public class Project implements Calculate {
     Double forfeitForCrossingDeadline;
     Integer amountOfDaysWaitingForPayment;
     Integer workersAmount;
-    ArrayList<Project> projectArrayList;
-
 
 
     public void setNeededAbilities(Project project) {
@@ -128,22 +124,12 @@ public class Project implements Calculate {
         this.projectName =b;
     }
 
-    public void projectType(){
+    public void projectType() {
         ProjectType p;
-        p =ProjectType.values()[new Random().nextInt(ProjectType.values().length)];
+        p = ProjectType.values()[new Random().nextInt(ProjectType.values().length)];
         this.projectType = p;
 
     }
-
-
-
-    public ProjectType getProjectType() {
-        return projectType;
-    }
-
-
-
-
 
     public void setDeadline() {
         Calendar calendar = Calendar.getInstance();
@@ -164,6 +150,14 @@ public class Project implements Calculate {
         this.calendarDeadline = calendar;
     }
 
+    //default setters and getters
+    public Abilities[] getAbilities() {
+        return abilities;
+    }
+    public ProjectType getProjectType() {
+        return projectType;
+    }
+
 
 
     public String toString(){
@@ -172,9 +166,7 @@ public class Project implements Calculate {
     }
 
 
-    public Abilities[] getAbilities() {
-        return abilities;
-    }
+
 }
 
 

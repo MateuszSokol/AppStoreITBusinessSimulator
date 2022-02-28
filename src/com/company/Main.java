@@ -14,12 +14,11 @@ public class Main {
 
         System.out.println("Hello, welcome to ITSimulator" + '\n' + "The aim of the game is to make 3 elaborateProjects " +
                 "without using boss. At least 1 projects must be earned by hire seller and u must have more cash than in the start");
+
+        //generate starting resources
+
         Scanner scanner = new Scanner(System.in);
-
         Calendar live = Calendar.getInstance();
-        Calendar deadlineCal  = Calendar.getInstance();
-        deadlineCal = live;
-
 
         int turnCounter = 0;
         boolean isGameRunning = true;
@@ -28,35 +27,16 @@ public class Main {
         Boss me = new Boss("Matt", "Sprout", TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
         me.setCompany(null);
+
         ArrayList<Project> projectArrayList = new ArrayList<>();
-        me.abilityGenerator(me);
-
-
-        //generate starting resources
-
+        me.abilityGenerator();
         me.setCash(me.generateRandomCashAmount());
         me.setProjectList(bossProjectList);
-
-
-        //creating client
-        LazyClient lazyClient = new LazyClient("company", ClientTypes.LAZY);
-
-
-
-        //generate random project and add to list
-
-        returnProjectList(projectArrayList);
-
-
-
-
-        for (Project p : projectArrayList
-        ) {
-            p.setDeadline();
-
-        }
         live.set(2020, Calendar.JANUARY, 1);
 
+        //generate random project and add to list
+        returnProjectList(projectArrayList);
+        setDeadlineForProject(projectArrayList);
 
 
         System.out.println("Your type: " + me.getEmployeeType());
@@ -64,11 +44,9 @@ public class Main {
         System.out.println("Cash: " + me.getCash());
 
 
-
-
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
-   while (isGameRunning) {
+        while (isGameRunning) {
             try {
                 System.out.println("Turn: " + turnCounter);
 
@@ -78,16 +56,14 @@ public class Main {
                 for (int i = 0; i < projectArrayList.size(); i++) {
 
                     if (me.getNumberOfEmployee() > 0) {
-                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " "+ Arrays.toString(projectArrayList.get(i).getAbilities()));
+                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
 
 
                     } else if (!projectArrayList.get(i).getProjectType().equals(ProjectType.ELABORATE)) {
-                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " "+ Arrays.toString(projectArrayList.get(i).getAbilities()));
-
+                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
 
                     }
                 }
-
 
                 System.out.println("As Boss you can only do beginner and intermediate projects");
                 System.out.println("Pick one of them typing index number");
@@ -95,24 +71,29 @@ public class Main {
 
                 int command = scanner.nextInt();
 
-                if(!me.check(projectArrayList.get(command-1))){
-                    System.out.println("You don't have some abilities better check it out");
-                    System.out.print(" "+ Arrays.toString(projectArrayList.get(command - 1).getAbilities()));
-                    System.out.println("Type 'cancel' to abort action otherwise type anything");
-                    String cancelAction = scanner.next();
-                    if(cancelAction.equals("cancel")){
-                        continue;
-                    }else{
-                        System.out.println("As u wish");
-                        me.getProjectList().add(projectArrayList.get(command-1));
-                        projectArrayList.remove(command-1);
+                if(!projectArrayList.get(command-1).getProjectType().equals(ProjectType.ELABORATE)) {
 
+                    if (!me.check(projectArrayList.get(command - 1))) {
+                        System.out.println("You don't have some abilities better check it out");
+                        System.out.print(" " + Arrays.toString(projectArrayList.get(command - 1).getAbilities()));
+                        System.out.println("Type 'cancel' to abort action otherwise type anything");
+                        String cancelAction = scanner.next();
+                        if (cancelAction.equals("cancel")) {
+                            continue;
+                        } else {
+                            System.out.println("As u wish");
+                            me.getProjectList().add(projectArrayList.get(command - 1));
+                            projectArrayList.remove(command - 1);
+
+                        }
+                    } else {
+                        me.getProjectList().add(projectArrayList.get(command - 1));
+                        projectArrayList.remove(command - 1);
                     }
                 }else{
-                    me.getProjectList().add(projectArrayList.get(command-1));
-                    projectArrayList.remove(command-1);
+                    System.out.println("bad input");
+                    continue;
                 }
-
 
                 System.out.println("Your project list: ");
                 for (Project p : me.getProjectList()
@@ -122,7 +103,7 @@ public class Main {
 
 
                 turnCounter++;
-                updateDate(live, turnCounter);
+                updateDate(live, 1);
 
                 System.out.println(live.getTime());
 
@@ -132,16 +113,12 @@ public class Main {
 
                 command = scanner.nextInt();
                 isGameRunning = exit(command);
-            }catch (Exception e){
+            } catch (Exception e) {
                 scanner.next();
             }
 
-
-
         }
-        }
-
-
+    }
 
     public static boolean exit(int a) {
 
@@ -156,7 +133,6 @@ public class Main {
         calendar.add(Calendar.DATE, counter);
     }
 
-
     private static void returnProjectList(ArrayList<Project> arrayList) {
         for (int i = 0; i < 10; i++) {
             Project project = new Project();
@@ -169,6 +145,13 @@ public class Main {
             project.calculateForfeitForCrossingDeadline();
 
             arrayList.add(project);
+        }
+    }
+
+    private static void setDeadlineForProject(ArrayList<Project> projectArrayList) {
+        for (Project p : projectArrayList
+        ) {
+            p.setDeadline();
         }
     }
 
