@@ -104,16 +104,13 @@ public class Main {
                         continue;
                     }else{
                         System.out.println("As u wish");
-                    }
-                }
-
-
-                for (int i = 0; i < projectArrayList.size(); i++) {
-                    if (command == i + 1 && projectArrayList.get(i) != null && !projectArrayList.get(i).getProjectType().equals(ProjectType.ELABORATE)) {
-                        projectArrayList.get(i).showTechnologiesAndWorkDaysTime();
-                        me.getProjectList().add(projectArrayList.get(i));
+                        me.getProjectList().add(projectArrayList.get(command-1));
+                        projectArrayList.remove(command-1);
 
                     }
+                }else{
+                    me.getProjectList().add(projectArrayList.get(command-1));
+                    projectArrayList.remove(command-1);
                 }
 
 
