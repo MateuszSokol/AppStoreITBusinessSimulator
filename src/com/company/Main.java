@@ -42,7 +42,7 @@ public class Main {
         System.out.println("Your type: " + me.getEmployeeType());
         me.showAbilities();
         System.out.println("Cash: " + me.getCash());
-
+        live.set(2020, Calendar.JANUARY, 1);
 
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
@@ -52,6 +52,12 @@ public class Main {
 
 
                 System.out.println("Projects available: ");
+
+                for (Project p:projectArrayList){
+                    System.out.println(p.getCalendarDeadline().getTime());
+                }
+
+
 
                 for (int i = 0; i < projectArrayList.size(); i++) {
 
@@ -63,7 +69,11 @@ public class Main {
                         System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
 
                     }
+
+                    projectArrayList.get(i).getCalendarDeadline().add(Calendar.DATE,1);
                 }
+
+
 
                 System.out.println("As Boss you can only do beginner and intermediate projects");
                 System.out.println("Pick one of them typing index number");

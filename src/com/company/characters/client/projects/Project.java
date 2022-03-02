@@ -132,26 +132,34 @@ public class Project implements Calculate {
     }
 
     public void setDeadline() {
+
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2020,Calendar.JANUARY,0);
+
         Random r = new Random();
         int d;
 
+
         if(projectType.equals(ProjectType.ELABORATE)){
 
-            d = r.nextInt(3,5);
+            d = r.nextInt(2,4);
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
-            d = r.nextInt(2,5);
+            d = r.nextInt(2,4);
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
-            d = r.nextInt(4,8);
+            d = r.nextInt(2,4);
             calendar.add(Calendar.DATE,d);
         }
+
         this.calendarDeadline = calendar;
     }
 
     //default setters and getters
+
+    public Calendar getCalendarDeadline() {
+        return calendarDeadline;
+    }
+
     public Abilities[] getAbilities() {
         return abilities;
     }
