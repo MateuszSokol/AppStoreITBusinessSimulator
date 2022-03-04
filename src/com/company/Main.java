@@ -2,8 +2,6 @@ package com.company;
 
 import com.company.characters.Boss;
 import com.company.characters.TypesOfEmployee;
-import com.company.characters.client.ClientTypes;
-import com.company.characters.client.LazyClient;
 import com.company.characters.client.projects.*;
 
 import java.util.*;
@@ -44,19 +42,20 @@ public class Main {
         System.out.println("Cash: " + me.getCash());
         live.set(2020, Calendar.JANUARY, 1);
 
+
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
+        System.out.println(checkIfIsItWorkday(live.DATE));
+
+
         while (isGameRunning) {
+
             try {
+                boolean checkProject = false;
                 System.out.println("Turn: " + turnCounter);
 
 
                 System.out.println("Projects available: ");
-
-                for (Project p:projectArrayList){
-                    System.out.println(p.getCalendarDeadline().getTime());
-                }
-
 
 
                 for (int i = 0; i < projectArrayList.size(); i++) {
@@ -70,9 +69,8 @@ public class Main {
 
                     }
 
-                    projectArrayList.get(i).getCalendarDeadline().add(Calendar.DATE,1);
+                    projectArrayList.get(i).getCalendarDeadline().add(Calendar.DATE, 1);
                 }
-
 
 
                 System.out.println("As Boss you can only do beginner and intermediate projects");
@@ -81,7 +79,7 @@ public class Main {
 
                 int command = scanner.nextInt();
 
-                if(!projectArrayList.get(command-1).getProjectType().equals(ProjectType.ELABORATE)) {
+                if (!projectArrayList.get(command - 1).getProjectType().equals(ProjectType.ELABORATE)) {
 
                     if (!me.check(projectArrayList.get(command - 1))) {
                         System.out.println("You don't have some abilities better check it out");
@@ -100,7 +98,7 @@ public class Main {
                         me.getProjectList().add(projectArrayList.get(command - 1));
                         projectArrayList.remove(command - 1);
                     }
-                }else{
+                } else {
                     System.out.println("bad input");
                     continue;
                 }
@@ -117,11 +115,36 @@ public class Main {
 
                 System.out.println(live.getTime());
 
-
-                System.out.println("If you want to exit type 0");
+                if(checkIfIsItWorkday(live.DATE)){
+                    System.out.println("Its weekend your employees don't work"+"\n"+"You can make project on your own");
+                }else{
+                    System.out.println("Its workday your employees work"+"\n"+"You can make project on your own");
+                }
+                System.out.println("""
+                        Type 1 to start project if you don't have ability you can't make it and your day is waste
+                        Check the employee list type 2
+                        If you want to exit type 0""");
 
 
                 command = scanner.nextInt();
+
+
+                if (command == 1) {
+                    System.out.println("Pick project: ");
+                    for (int i = 0; i < bossProjectList.size(); i++) {
+                        System.out.println(i + 1 + ": " + bossProjectList.get(i));
+                    }
+
+                }
+
+                command = scanner.nextInt();
+                checkProject = me.check(bossProjectList.get(command-1));
+
+                int c = bossProjectList.indexOf(bossProjectList.get(command - 1));
+                System.out.println(c);
+                if (command == c+1) {
+                   me.makeWork(bossProjectList,checkProject,command);
+                }
                 isGameRunning = exit(command);
             } catch (Exception e) {
                 scanner.next();
@@ -132,10 +155,7 @@ public class Main {
 
     public static boolean exit(int a) {
 
-        boolean abc = true;
-        abc = (a == 0) ? false : true;
-
-        return abc;
+        return (a == 0) ? false : true;
     }
 
     public static void updateDate(Calendar calendar, int counter) {
@@ -153,7 +173,6 @@ public class Main {
             project.calculatePayment();
             project.calculateWorkerAmount();
             project.calculateForfeitForCrossingDeadline();
-
             arrayList.add(project);
         }
     }
@@ -162,6 +181,15 @@ public class Main {
         for (Project p : projectArrayList
         ) {
             p.setDeadline();
+        }
+    }
+
+    private static boolean checkIfIsItWorkday(Integer dayCounter) {
+
+        if (dayCounter ==1 || dayCounter==7) {
+            return true;
+        } else {
+            return false;
         }
     }
 

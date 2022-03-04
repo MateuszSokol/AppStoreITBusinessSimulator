@@ -1,8 +1,9 @@
 package com.company;
 
-import com.company.characters.Employee;
 import com.company.characters.client.projects.Project;
 
+import java.util.ArrayList;
+
 public interface projectMaking {
-    public void makeWork(Project project);
+   void makeWork(ArrayList<Project> projectList , boolean canDoIt,int command) throws InterruptedException;
 }

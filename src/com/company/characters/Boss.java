@@ -89,12 +89,20 @@ public class Boss implements projectMaking{
     }
 
     @Override
-    public void makeWork(Project project) {
-
-        for (int i = 0; i < project.abilities.length; i++) {
+    public void makeWork(ArrayList<Project> projectList,boolean canDoIt,int command) throws InterruptedException {
 
 
-        }
+            if(canDoIt){
+                System.out.println("Project in progress");
+                Thread.sleep(2000);
+                System.out.println("You have earned: "+ projectList.get(command-1).getClientPayment());
+                double var = projectList.get(command-1).getClientPayment();
+                setCash(getCash()+var);
+                System.out.println("Your Cash: " + getCash());
+                projectList.remove(command-1);
+            }
+
+
     }
     public void abilityGenerator() {
         abilities[0] = Abilities.BACKEND;

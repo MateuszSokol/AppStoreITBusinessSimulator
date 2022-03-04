@@ -156,6 +156,11 @@ public class Project implements Calculate {
 
     //default setters and getters
 
+
+    public Double getClientPayment() {
+        return clientPayment;
+    }
+
     public Calendar getCalendarDeadline() {
         return calendarDeadline;
     }
