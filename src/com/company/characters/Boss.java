@@ -90,8 +90,6 @@ public class Boss implements projectMaking{
 
     @Override
     public void makeWork(ArrayList<Project> projectList,boolean canDoIt,int command) throws InterruptedException {
-
-
             if(canDoIt){
                 System.out.println("Project in progress");
                 Thread.sleep(2000);
@@ -101,8 +99,6 @@ public class Boss implements projectMaking{
                 System.out.println("Your Cash: " + getCash());
                 projectList.remove(command-1);
             }
-
-
     }
     public void abilityGenerator() {
         abilities[0] = Abilities.BACKEND;

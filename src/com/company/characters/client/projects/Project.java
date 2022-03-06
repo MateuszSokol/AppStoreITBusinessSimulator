@@ -1,6 +1,8 @@
 package com.company.characters.client.projects;
 
 import com.company.Abilities;
+import com.company.characters.client.Client;
+import com.company.characters.client.ClientTypes;
 
 import java.util.*;
 
@@ -12,8 +14,8 @@ public class Project implements Calculate {
     Double clientPayment;
     Calendar calendarDeadline;
     Double forfeitForCrossingDeadline;
-    Integer amountOfDaysWaitingForPayment;
     Integer workersAmount;
+    Client client;
 
 
     public void setNeededAbilities(Project project) {
@@ -89,7 +91,6 @@ public class Project implements Calculate {
         d=Math.round(d*100.0)/100.0;
        this.clientPayment = d;
     }
-    @Override
     public void calculateWorkerAmount(){
         Integer i = 0;
 
@@ -102,7 +103,6 @@ public class Project implements Calculate {
 
        this.workersAmount = i;
     }
-    @Override
     public void calculateForfeitForCrossingDeadline(){
         double d =0;
         if(projectType.equals(ProjectType.BEGINNER))
@@ -138,23 +138,33 @@ public class Project implements Calculate {
         Random r = new Random();
         int d;
 
+        calendar.set(2020,Calendar.JANUARY,0);
 
         if(projectType.equals(ProjectType.ELABORATE)){
 
-            d = r.nextInt(2,4);
+            d = r.nextInt(1,4);
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
-            d = r.nextInt(2,4);
+            d = r.nextInt(1,4);
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
-            d = r.nextInt(2,4);
+            d = r.nextInt(1,4);
             calendar.add(Calendar.DATE,d);
         }
 
         this.calendarDeadline = calendar;
     }
+    public void daysToDeadline(Calendar live,Project project){
+
+        int a = live.get(Calendar.DATE);
+        int b = project.getCalendarDeadline().get(Calendar.DATE);
+        int value = b-a;
+        System.out.println("Days left: " + value);
+
+    }
 
     //default setters and getters
+
 
 
     public Double getClientPayment() {
@@ -172,7 +182,16 @@ public class Project implements Calculate {
         return projectType;
     }
 
+    public void setClient(Client client){
+        this.client = client;
+    }
+    public Client getClient(){
+        return client;
+    }
 
+    public void setForfeitForCrossingDeadline(Double forfeit){
+        this.forfeitForCrossingDeadline = forfeit;
+    }
 
     public String toString(){
         return "Project Name: "+projectName + " Project Type: " + projectType + " Client payment: " + clientPayment + " Value of forfeit for crossing Deadline:  " +

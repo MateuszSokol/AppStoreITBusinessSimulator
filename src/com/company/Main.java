@@ -50,13 +50,10 @@ public class Main {
 
         while (isGameRunning) {
 
+            boolean checkProject;
             try {
-                boolean checkProject = false;
                 System.out.println("Turn: " + turnCounter);
-
-
                 System.out.println("Projects available: ");
-
 
                 for (int i = 0; i < projectArrayList.size(); i++) {
 
@@ -72,10 +69,8 @@ public class Main {
                     projectArrayList.get(i).getCalendarDeadline().add(Calendar.DATE, 1);
                 }
 
-
                 System.out.println("As Boss you can only do beginner and intermediate projects");
                 System.out.println("Pick one of them typing index number");
-
 
                 int command = scanner.nextInt();
 
@@ -92,7 +87,6 @@ public class Main {
                             System.out.println("As u wish");
                             me.getProjectList().add(projectArrayList.get(command - 1));
                             projectArrayList.remove(command - 1);
-
                         }
                     } else {
                         me.getProjectList().add(projectArrayList.get(command - 1));
@@ -107,13 +101,14 @@ public class Main {
                 for (Project p : me.getProjectList()
                 ) {
                     System.out.println(p.toString());
+                    p.daysToDeadline(live,p);
                 }
-
 
                 turnCounter++;
                 updateDate(live, 1);
 
                 System.out.println(live.getTime());
+
 
                 if(checkIfIsItWorkday(live.DATE)){
                     System.out.println("Its weekend your employees don't work"+"\n"+"You can make project on your own");
@@ -129,23 +124,33 @@ public class Main {
                 command = scanner.nextInt();
 
 
+
+
+                isGameRunning = exit(command);
+
                 if (command == 1) {
                     System.out.println("Pick project: ");
                     for (int i = 0; i < bossProjectList.size(); i++) {
                         System.out.println(i + 1 + ": " + bossProjectList.get(i));
                     }
 
+                }else if(!isGameRunning){
+                    break;
                 }
 
-                command = scanner.nextInt();
+
+
                 checkProject = me.check(bossProjectList.get(command-1));
 
                 int c = bossProjectList.indexOf(bossProjectList.get(command - 1));
-                System.out.println(c);
+
                 if (command == c+1) {
                    me.makeWork(bossProjectList,checkProject,command);
                 }
-                isGameRunning = exit(command);
+
+
+
+
             } catch (Exception e) {
                 scanner.next();
             }
