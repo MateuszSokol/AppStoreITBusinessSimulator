@@ -18,10 +18,11 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Calendar live = Calendar.getInstance();
 
-        int turnCounter = 0;
+        int turnCounter = 1;
         boolean isGameRunning = true;
 
         ArrayList<Project> bossProjectList = new ArrayList<>();
+        ArrayList<Project> madedProjectsList = new ArrayList<>();
         Boss me = new Boss("Matt", "Sprout", TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
         me.setCompany(null);
@@ -37,6 +38,7 @@ public class Main {
         setDeadlineForProject(projectArrayList);
 
 
+        //info about character
         System.out.println("Your type: " + me.getEmployeeType());
         me.showAbilities();
         System.out.println("Cash: " + me.getCash());
@@ -45,108 +47,129 @@ public class Main {
 
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
-        System.out.println(checkIfIsItWorkday(live.DATE));
 
+
+        System.out.println("Each action take one turn");
 
         while (isGameRunning) {
 
+            if (checkIfIsItWeekend(live.DATE)) {
+                System.out.println("Its weekend your employees don't work" + "\n" + "You can make project on your own");
+            } else {
+                System.out.println("Its workday your employees work" + "\n" + "You can make project on your own");
+            }
             boolean checkProject;
             try {
+
+                System.out.println("0: Exit" + "\n" + "1: Pick project" + "\n" + "2: Choose an employee" + "\n" + "3: Make project on your own" +
+                        "\n" + "4: Fire an employee" + "\n" + "5: submit project");
                 System.out.println("Turn: " + turnCounter);
-                System.out.println("Projects available: ");
-
-                for (int i = 0; i < projectArrayList.size(); i++) {
-
-                    if (me.getNumberOfEmployee() > 0) {
-                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
-
-
-                    } else if (!projectArrayList.get(i).getProjectType().equals(ProjectType.ELABORATE)) {
-                        System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
-
-                    }
-
-                    projectArrayList.get(i).getCalendarDeadline().add(Calendar.DATE, 1);
-                }
-
-                System.out.println("As Boss you can only do beginner and intermediate projects");
-                System.out.println("Pick one of them typing index number");
+                System.out.println(live.getTime());
 
                 int command = scanner.nextInt();
 
-                if (!projectArrayList.get(command - 1).getProjectType().equals(ProjectType.ELABORATE)) {
+                if (command == 0) {
 
-                    if (!me.check(projectArrayList.get(command - 1))) {
-                        System.out.println("You don't have some abilities better check it out");
-                        System.out.print(" " + Arrays.toString(projectArrayList.get(command - 1).getAbilities()));
-                        System.out.println("Type 'cancel' to abort action otherwise type anything");
-                        String cancelAction = scanner.next();
-                        if (cancelAction.equals("cancel")) {
-                            continue;
+                    break;
+                } else if (command == 1) {
+                    System.out.println("Projects available: ");
+                    for (int i = 0; i < projectArrayList.size(); i++) {
+                        if (me.getNumberOfEmployee() > 0) {
+                            System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
+                        } else if (!projectArrayList.get(i).getProjectType().equals(ProjectType.ELABORATE)) {
+                            System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
+                        }
+                        projectArrayList.get(i).getCalendarDeadline().add(Calendar.DATE, 1);
+                    }
+
+                    System.out.println("As Boss you can only do beginner and intermediate projects");
+                    System.out.println("Pick one of them typing index number");
+
+                    command = scanner.nextInt();
+                    if (!projectArrayList.get(command - 1).getProjectType().equals(ProjectType.ELABORATE)) {
+
+                        if (!me.check(projectArrayList.get(command - 1))) {
+                            System.out.println("You don't have some abilities better check it out");
+                            System.out.print(" " + Arrays.toString(projectArrayList.get(command - 1).getAbilities()));
+                            System.out.println("Type 'cancel' to abort action otherwise type anything");
+                            String cancelAction = scanner.next();
+                            if (!cancelAction.equals("cancel")) {
+                                System.out.println("As u wish");
+                                me.getProjectList().add(projectArrayList.get(command - 1));
+                                projectArrayList.remove(command - 1);
+                                turnCounter++;
+                                updateDate(live, 1);
+                                continue;
+                            }
+
                         } else {
-                            System.out.println("As u wish");
                             me.getProjectList().add(projectArrayList.get(command - 1));
                             projectArrayList.remove(command - 1);
+                            turnCounter++;
+                            updateDate(live, 1);
+                            continue;
                         }
                     } else {
-                        me.getProjectList().add(projectArrayList.get(command - 1));
-                        projectArrayList.remove(command - 1);
+                        System.out.println("bad input");
+                        continue;
                     }
-                } else {
-                    System.out.println("bad input");
-                    continue;
+
+
+                } else if (command == 2) {
+
+
+                } else if (command == 3) {
+
+                    System.out.println("Your project list: ");
+
+
+                    for (Project p : me.getProjectList()
+                    ) {
+                        System.out.println(p.toString());
+                        p.daysToDeadline(live, p);
+                    }
+                    System.out.println("If you don't have any projects type: " + "99");
+                    command = scanner.nextInt();
+                    if(command==99){
+                        continue;
+                    }else{
+
+                        System.out.println("Pick project: ");
+                        for (int i = 0; i < bossProjectList.size(); i++) {
+                            System.out.println(i + 1 + ": " + bossProjectList.get(i));
+                        }
+                        command = scanner.nextInt();
+                        checkProject = me.check(bossProjectList.get(command - 1));
+                        int c = bossProjectList.indexOf(bossProjectList.get(command - 1));
+
+                        if (command == c + 1) {
+                            me.makeWork(bossProjectList, checkProject, command);
+                        }
+                        turnCounter++;
+                        updateDate(live, 1);
+                    }
+
                 }
 
-                System.out.println("Your project list: ");
-                for (Project p : me.getProjectList()
-                ) {
-                    System.out.println(p.toString());
-                    p.daysToDeadline(live,p);
-                }
 
-                turnCounter++;
-                updateDate(live, 1);
+
 
                 System.out.println(live.getTime());
 
 
-                if(checkIfIsItWorkday(live.DATE)){
-                    System.out.println("Its weekend your employees don't work"+"\n"+"You can make project on your own");
-                }else{
-                    System.out.println("Its workday your employees work"+"\n"+"You can make project on your own");
-                }
-                System.out.println("""
-                        Type 1 to start project if you don't have ability you can't make it and your day is waste
-                        Check the employee list type 2
-                        If you want to exit type 0""");
+                System.out.println("Type 1 to start project if you don't have ability you can't make it and your day is waste");
+
 
 
                 command = scanner.nextInt();
 
 
-
-
-                isGameRunning = exit(command);
-
                 if (command == 1) {
-                    System.out.println("Pick project: ");
-                    for (int i = 0; i < bossProjectList.size(); i++) {
-                        System.out.println(i + 1 + ": " + bossProjectList.get(i));
-                    }
 
-                }else if(!isGameRunning){
-                    break;
                 }
 
 
 
-                checkProject = me.check(bossProjectList.get(command-1));
-
-                int c = bossProjectList.indexOf(bossProjectList.get(command - 1));
-
-                if (command == c+1) {
-                   me.makeWork(bossProjectList,checkProject,command);
-                }
 
 
 
@@ -156,11 +179,6 @@ public class Main {
             }
 
         }
-    }
-
-    public static boolean exit(int a) {
-
-        return (a == 0) ? false : true;
     }
 
     public static void updateDate(Calendar calendar, int counter) {
@@ -189,9 +207,9 @@ public class Main {
         }
     }
 
-    private static boolean checkIfIsItWorkday(Integer dayCounter) {
+    private static boolean checkIfIsItWeekend(Integer dayCounter) {
 
-        if (dayCounter ==1 || dayCounter==7) {
+        if (dayCounter == 1 || dayCounter == 7) {
             return true;
         } else {
             return false;

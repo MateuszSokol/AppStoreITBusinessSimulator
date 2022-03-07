@@ -2,8 +2,6 @@ package com.company.characters.client.projects;
 
 import com.company.Abilities;
 import com.company.characters.client.Client;
-import com.company.characters.client.ClientTypes;
-
 import java.util.*;
 
 public class Project implements Calculate {
@@ -16,6 +14,7 @@ public class Project implements Calculate {
     Double forfeitForCrossingDeadline;
     Integer workersAmount;
     Client client;
+    public Boolean isDone = false;
 
 
     public void setNeededAbilities(Project project) {
@@ -142,13 +141,13 @@ public class Project implements Calculate {
 
         if(projectType.equals(ProjectType.ELABORATE)){
 
-            d = r.nextInt(1,4);
+            d = r.nextInt(2,4);
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
-            d = r.nextInt(1,4);
+            d = r.nextInt(2,4);
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
-            d = r.nextInt(1,4);
+            d = r.nextInt(2,4);
             calendar.add(Calendar.DATE,d);
         }
 
@@ -191,6 +190,10 @@ public class Project implements Calculate {
 
     public void setForfeitForCrossingDeadline(Double forfeit){
         this.forfeitForCrossingDeadline = forfeit;
+    }
+
+    public void setDone(Boolean done) {
+        isDone = done;
     }
 
     public String toString(){
