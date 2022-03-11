@@ -1,6 +1,6 @@
 package com.company.characters.client.projects;
 
-import com.company.Abilities;
+import com.company.characters.Abilities;
 import com.company.characters.client.Client;
 import java.util.*;
 
@@ -153,12 +153,12 @@ public class Project implements Calculate {
 
         this.calendarDeadline = calendar;
     }
-    public void daysToDeadline(Calendar live,Project project){
+    public Integer daysToDeadline(Calendar live,Project project){
 
         int a = live.get(Calendar.DATE);
         int b = project.getCalendarDeadline().get(Calendar.DATE);
-        int value = b-a;
-        System.out.println("Days left: " + value);
+
+        return b-a;
 
     }
 

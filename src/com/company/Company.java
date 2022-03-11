@@ -1,8 +1,7 @@
 package com.company;
 
 import com.company.characters.Boss;
-import com.company.characters.Employee;
-import com.company.characters.TypesOfEmployee;
+import com.company.characters.employee.TypesOfEmployee;
 
 import java.util.List;
 

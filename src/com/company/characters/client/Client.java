@@ -3,7 +3,6 @@ package com.company.characters.client;
 import com.company.characters.client.projects.Project;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Random;
 
 public class Client {
@@ -18,7 +17,6 @@ public class Client {
         this.clientCompanyName = clientCompanyName;
         this.clientType = clientType;
         setPaymentDelay();
-        setAvoidCrossingDeadlinePunishment();
     }
 
     public ClientTypes getClientType() {
@@ -35,15 +33,15 @@ public class Client {
         }
     }
 
-    public void setAvoidCrossingDeadlinePunishment() {
+    public void setAvoidCrossingDeadlinePunishment(int deadlineDays) {
         Random r = new Random();
         int d = r.nextInt(1, 5);
-        if(d ==1 ){
+
+        if(d==1 && deadlineDays > -7){
             this.avoidCrossingDeadlinePunishment = true;
         }else{
             this.avoidCrossingDeadlinePunishment = false;
         }
     }
-
 
 }

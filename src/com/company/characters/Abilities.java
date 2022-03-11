@@ -1,4 +1,4 @@
-package com.company;
+package com.company.characters;
 
 public enum Abilities {
     FRONT_END,
@@ -6,7 +6,7 @@ public enum Abilities {
     MOBILE,
     DATA_BASE,
     WORDPRESS,
-    PRESTASHOP;
+    PRESTASHOP
 
     }
 
