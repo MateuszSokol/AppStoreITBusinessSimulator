@@ -2,7 +2,6 @@ package com.company;
 
 import com.company.characters.Boss;
 import com.company.characters.employee.TypesOfEmployee;
-import com.company.characters.client.Client;
 import com.company.characters.client.ClientTypes;
 import com.company.characters.client.projects.*;
 
@@ -47,18 +46,18 @@ public class Main {
         System.out.println("Cash: " + me.getCash());
         live.set(2020, Calendar.JANUARY, 1);
 
-        ArrayList<Project> relaxedClientProjectList = new ArrayList<>();
-        ArrayList<Project> demandingClientProjectList = new ArrayList<>();
-        ArrayList<Project> fckrClientProjectList = new ArrayList<>();
+
+        addClientToProject(projectArrayList);
+        /*System.out.println(projectArrayList.size()/3);*/
+
+        for (Project p:projectArrayList
+             ) {
+            p.setPaymentDelay();
+        }
 
 
-        addProjectToClient(projectArrayList,relaxedClientProjectList,demandingClientProjectList,fckrClientProjectList);
 
 
-
-        Client relaxedClient = new Client(relaxedClientProjectList,"relaxed Company", ClientTypes.LAZY);
-        Client demandingClient = new Client(demandingClientProjectList,"demanding Company",ClientTypes.DEMANDING);
-        Client fckrClient = new Client(fckrClientProjectList,"Fcker Company",ClientTypes.FCKRS);
 
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
@@ -140,7 +139,8 @@ public class Main {
                     ) {
                         System.out.println(p.toString());
                         System.out.println("Days left: " +  p.daysToDeadline(live, p));
-                        relaxedClient.setAvoidCrossingDeadlinePunishment(p.daysToDeadline(live,p));
+                        p.setAvoidCrossingDeadlinePunishment(p.daysToDeadline(live,p));
+
                     }
                     System.out.println("If you don't have any projects type: 99"+" Otherwise type: 1");
                     command = scanner.nextInt();
@@ -186,6 +186,7 @@ public class Main {
                 scanner.next();
             }
 
+
         }
     }
 
@@ -200,7 +201,7 @@ public class Main {
             project.projectType();
             project.setNeededAbilities(project);
             project.addRandomProjectNameFromEnum();
-            project.addRandomDaysWorkAtTechnologies(project);
+            project.addRandomDaysWorkAtTechnologies();
             project.calculatePayment();
             project.calculateWorkerAmount();
             project.calculateForfeitForCrossingDeadline();
@@ -216,20 +217,22 @@ public class Main {
     }
 
     private static boolean checkIfIsItWeekend(Integer dayCounter) {
+
         return dayCounter == 1 || dayCounter == 7;
     }
-    public static void addProjectToClient(ArrayList<Project> projectArrayList,ArrayList<Project> relaxedClientProjectList,
-                                          ArrayList<Project> demandingClientProjectList,ArrayList<Project> fckrsClientProjectList){
+    public static void addClientToProject(ArrayList<Project> projectArrayList){
 
         for (int i = 0; i <projectArrayList.size()/3; i++) {
-            relaxedClientProjectList.add(projectArrayList.get(i));
+            projectArrayList.get(i).setClient(ClientTypes.LAZY);
+
         }
-        for (int i = projectArrayList.size()/3; i <projectArrayList.size() -projectArrayList.size()/3 ; i++) {
-            demandingClientProjectList.add(projectArrayList.get(i));
+        for (int i = projectArrayList.size()/3 ; i <projectArrayList.size() -projectArrayList.size()/3 ; i++) {
+            projectArrayList.get(i).setClient(ClientTypes.DEMANDING);
         }
         for (int i = projectArrayList.size() - projectArrayList.size()/3; i <projectArrayList.size() ; i++) {
-            fckrsClientProjectList.add(projectArrayList.get(i));
+            projectArrayList.get(i).setClient(ClientTypes.FCKRS);
         }
+
     }
 
 }

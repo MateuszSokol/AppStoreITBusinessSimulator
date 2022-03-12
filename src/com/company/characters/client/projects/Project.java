@@ -1,20 +1,23 @@
 package com.company.characters.client.projects;
 
 import com.company.characters.Abilities;
-import com.company.characters.client.Client;
+import com.company.characters.client.ClientTypes;
+
 import java.util.*;
 
 public class Project implements Calculate {
     ProjectNamesPool projectName;
     ProjectType projectType;
-    Integer [] workDaysAtTechnology;
+public Integer workDaysAtProject;
  public  Abilities [] abilities;
     Double clientPayment;
     Calendar calendarDeadline;
     Double forfeitForCrossingDeadline;
     Integer workersAmount;
-    Client client;
+    ClientTypes client;
     public Boolean isDone = false;
+    public Boolean avoidCrossingDeadlinePunishment;
+    Integer paymentDelay;
 
 
     public void setNeededAbilities(Project project) {
@@ -51,32 +54,14 @@ public class Project implements Calculate {
 
         }
 
-        workDaysAtTechnology = new Integer[project.abilities.length];
-
-        addRandomDaysWorkAtTechnologies(project);
-
-
-
     }
 
-    public void addRandomDaysWorkAtTechnologies(Project project){
-
+    public void addRandomDaysWorkAtTechnologies(){
        Random random = new Random();
+        workDaysAtProject = random.nextInt(1,4);
 
-        for (int i = 0; i < project.workDaysAtTechnology.length; i++) {
-
-            int randomDaysAtTech = random.nextInt(1,4);
-            workDaysAtTechnology[i] =randomDaysAtTech;
-        }
     }
 
-    public void showTechnologiesAndWorkDaysTime(){
-        for (int i = 0; i <workDaysAtTechnology.length; i++) {
-            if(abilities[i] != null){
-                System.out.println(abilities[i] + " -- " + workDaysAtTechnology[i] +" days");
-            }
-        }
-    }
     @Override
     public void calculatePayment(){
         double d =0;
@@ -141,13 +126,23 @@ public class Project implements Calculate {
 
         if(projectType.equals(ProjectType.ELABORATE)){
 
+
             d = r.nextInt(2,4);
+            if (d >= workDaysAtProject) {
+                d+=2;
+            }
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
             d = r.nextInt(2,4);
+            if (d >= workDaysAtProject) {
+                d+=2;
+            }
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
             d = r.nextInt(2,4);
+            if (d >= workDaysAtProject) {
+                d+=2;
+            }
             calendar.add(Calendar.DATE,d);
         }
 
@@ -160,6 +155,26 @@ public class Project implements Calculate {
 
         return b-a;
 
+    }
+    public void setAvoidCrossingDeadlinePunishment(int deadlineDays) {
+        Random r = new Random();
+        int d = r.nextInt(1, 5);
+
+        if(d==1 && deadlineDays > -7){
+            this.avoidCrossingDeadlinePunishment = true;
+        }else{
+            this.avoidCrossingDeadlinePunishment = false;
+        }
+    }
+
+    public void setPaymentDelay(){
+        Random r = new Random();
+        int d = r.nextInt(1,3);
+        if(client.equals(ClientTypes.LAZY)|| client.equals(ClientTypes.FCKRS) && d == 1 ){
+            this.paymentDelay =7;
+        }else{
+            this.paymentDelay =0;
+        }
     }
 
     //default setters and getters
@@ -181,10 +196,10 @@ public class Project implements Calculate {
         return projectType;
     }
 
-    public void setClient(Client client){
+    public void setClient(ClientTypes client){
         this.client = client;
     }
-    public Client getClient(){
+    public ClientTypes getClient(){
         return client;
     }
 
@@ -197,8 +212,8 @@ public class Project implements Calculate {
     }
 
     public String toString(){
-        return "Project Name: "+projectName + " Project Type: " + projectType + " Client payment: " + clientPayment + " Value of forfeit for crossing Deadline:  " +
-                forfeitForCrossingDeadline + " Deadline:  " + calendarDeadline.getTime()+ " Amount of waiting days for payment: " + workersAmount ;
+        return "Project Name: "+projectName + " Project Type: " + projectType + " Client payment: " + clientPayment + " Value of forfeit for crossing Deadline: " +
+                forfeitForCrossingDeadline + " Deadline:  " + calendarDeadline.getTime()+ " Amount of waiting days for payment: " + workersAmount +" Days needed: " + workDaysAtProject ;
     }
 
 

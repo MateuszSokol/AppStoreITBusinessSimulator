@@ -95,8 +95,14 @@ public class Boss implements projectMaking {
             System.out.println("Project in progress");
             Thread.sleep(2000);
 
-            madeProjectList.add(projectList.get(command-1));
-            projectList.remove(command - 1);
+
+            if(projectList.get(command-1).workDaysAtProject == 1){
+                projectList.get(command-1).workDaysAtProject -=1;
+                madeProjectList.add(projectList.get(command-1));
+                projectList.remove(command - 1);
+            }else{
+                projectList.get(command-1).workDaysAtProject -=1;
+            }
         }
     }
 
