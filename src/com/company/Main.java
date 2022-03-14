@@ -29,7 +29,8 @@ public class Main {
         me.setNumberOfEmployee(0);
         me.setCompany(null);
 
-        
+        ArrayList<Project> waitingPaymentProjects = new ArrayList<>();
+
 
         ArrayList<Project> projectArrayList = new ArrayList<>();
         me.abilityGenerator();
@@ -165,10 +166,19 @@ public class Main {
 
                     } else if (command == c+1 ){
                        checkPaymentStatus(madedProjectsList,command,me,live);
+                       waitingPaymentProjects.add(madedProjectsList.get(c));
                     }
 
+                    for (int i =0; i<waitingPaymentProjects.size();i++){
+                        if(waitingPaymentProjects.get(i)!=null && waitingPaymentProjects.get(i).getPaymentDelay()>0){
+                            waitingPaymentProjects.get(i).setPaymentDelay(waitingPaymentProjects.get(i).getPaymentDelay()-1);
+                            System.out.println(waitingPaymentProjects.get(i).getPaymentDelay());
+                        }
+                    }
 
                 }
+
+
 
 
             } catch (Exception e) {
@@ -231,7 +241,7 @@ public class Main {
         if (madedProjectsList.get(command - 1).getClient().equals(ClientTypes.FCKRS)) {
 
             if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-
+                madedProjectsList.get(command - 1).setPaymentDelay(madedProjectsList.get(command - 1).getPaymentDelay() - 1);
                 System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
             } else {
                 madedProjectsList.get(command - 1).setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).daysToDeadline(live, madedProjectsList.get(command - 1)));
@@ -250,7 +260,7 @@ public class Main {
             }
         }else if(madedProjectsList.get(command-1).getClient().equals(ClientTypes.DEMANDING)){
             if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-                madedProjectsList.get(command - 1).setPaymentDelay(madedProjectsList.get(command - 1).getPaymentDelay() - 1);
+
                 madedProjectsList.get(command-1).setPaymentDelay(madedProjectsList.get(command-1).getPaymentDelay() - 1);
                 System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
             } else {
