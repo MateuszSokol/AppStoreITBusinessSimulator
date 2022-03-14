@@ -29,6 +29,8 @@ public class Main {
         me.setNumberOfEmployee(0);
         me.setCompany(null);
 
+        
+
         ArrayList<Project> projectArrayList = new ArrayList<>();
         me.abilityGenerator();
         me.setCash(me.generateRandomCashAmount());
@@ -165,7 +167,9 @@ public class Main {
                        checkPaymentStatus(madedProjectsList,command,me,live);
                     }
 
+
                 }
+
 
             } catch (Exception e) {
                 scanner.next();
@@ -227,13 +231,52 @@ public class Main {
         if (madedProjectsList.get(command - 1).getClient().equals(ClientTypes.FCKRS)) {
 
             if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-                madedProjectsList.get(command - 1).setPaymentDelay(madedProjectsList.get(command - 1).getPaymentDelay() - 1);
+
                 System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
             } else {
                 madedProjectsList.get(command - 1).setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).daysToDeadline(live, madedProjectsList.get(command - 1)));
                 if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
                     System.out.println("You submitted your project on time :) ");
                         me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
+
+                }else{
+                    System.out.println("You are late :/" + " You must pay forfeit: " +
+                            madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
+                    me.setCash(madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
+                    me.addPaymentToBossIfProjectIsReady(madedProjectsList,command);
+
+                }
+
+            }
+        }else if(madedProjectsList.get(command-1).getClient().equals(ClientTypes.DEMANDING)){
+            if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
+                madedProjectsList.get(command - 1).setPaymentDelay(madedProjectsList.get(command - 1).getPaymentDelay() - 1);
+                madedProjectsList.get(command-1).setPaymentDelay(madedProjectsList.get(command-1).getPaymentDelay() - 1);
+                System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
+            } else {
+                madedProjectsList.get(command - 1).setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).daysToDeadline(live, madedProjectsList.get(command - 1)));
+                if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
+                    System.out.println("You submitted your project on time :) ");
+                    me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
+
+                }else{
+                    System.out.println("You are late :/" + " You must pay forfeit: " +
+                            madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
+                    me.setCash(madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
+                    me.addPaymentToBossIfProjectIsReady(madedProjectsList,command);
+
+                }
+
+            }
+        }else if(madedProjectsList.get(command-1).getClient().equals(ClientTypes.LAZY)){
+            if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
+                madedProjectsList.get(command - 1).setPaymentDelay(madedProjectsList.get(command - 1).getPaymentDelay() - 1);
+                System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
+            } else {
+                madedProjectsList.get(command - 1).setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).daysToDeadline(live, madedProjectsList.get(command - 1)));
+                if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
+                    System.out.println("You submitted your project on time :) ");
+                    me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
 
                 }else{
                     System.out.println("You are late :/" + " You must pay forfeit: " +

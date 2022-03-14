@@ -125,22 +125,22 @@ public Integer workDaysAtProject;
 
         if(projectType.equals(ProjectType.ELABORATE)){
 
-
+//deadlin wiekszy niz ilosc dni potrzebnych na zrobineine projektu
             d = r.nextInt(2,4);
-            if (d <= workDaysAtProject) {
-                d+=2;
+            if (d >= workDaysAtProject) {
+                d--;
             }
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
             d = r.nextInt(2,4);
-            if (d <= workDaysAtProject) {
-                d+=2;
+            if (d >= workDaysAtProject) {
+                d--;
             }
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
             d = r.nextInt(2,4);
-            if (d <= workDaysAtProject) {
-                d+=2;
+            if (d >= workDaysAtProject) {
+                d--;
             }
             calendar.add(Calendar.DATE,d);
         }
