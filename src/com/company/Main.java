@@ -17,7 +17,7 @@ public class Main {
 
         //generate starting resources
 
-        Scanner scanner = new Scanner(System.in);
+
         Calendar live = Calendar.getInstance();
 
         int turnCounter = 1;
@@ -59,6 +59,9 @@ public class Main {
         System.out.println("Each action take one turn");
 
         while (true) {
+
+
+
             if (checkIfIsItWeekend(live.get(Calendar.DATE))) {
                 System.out.println("Its weekend your employees don't work" + "\n" + "You can make project on your own");
             } else {
@@ -66,6 +69,7 @@ public class Main {
             }
             boolean checkProject;
             try {
+                Scanner scanner = new Scanner(System.in);
                 System.out.println("""
                         0: Exit
                         1: Pick project
@@ -88,7 +92,7 @@ public class Main {
                         } else if (!projectArrayList.get(i).getProjectType().equals(ProjectType.ELABORATE)) {
                             System.out.println((i + 1) + ": " + projectArrayList.get(i).getProjectType() + " " + Arrays.toString(projectArrayList.get(i).getAbilities()));
                         }
-                        projectArrayList.get(i).getCalendarDeadline().add(Calendar.DATE, 1);
+
                     }
 
                     System.out.println("As Boss you can only do beginner and intermediate projects");
@@ -107,18 +111,23 @@ public class Main {
                                 projectArrayList.remove(command - 1);
                                 turnCounter++;
                                 updateDate(live);
+                                checkPaymentDelay(waitingPaymentProjects,me);
                             }
                         } else {
                             me.getProjectList().add(projectArrayList.get(command - 1));
                             projectArrayList.remove(command - 1);
                             turnCounter++;
                             updateDate(live);
+                            checkPaymentDelay(waitingPaymentProjects,me);
                         }
                     } else {
                         System.out.println("bad input");
                     }
                 } else if (command == 2) {
 
+                    checkPaymentDelay(waitingPaymentProjects,me);
+
+                    updateDate(live);
 
                 } else if (command == 3) {
                     System.out.println("Your project list: ");
@@ -148,41 +157,51 @@ public class Main {
                         }
                         turnCounter++;
                         updateDate(live);
+                        checkPaymentDelay(waitingPaymentProjects,me);
                     }
 
                 } else if (command == 5) {
                     System.out.println("Type project index to submit project");
+                    System.out.println("If it is empty type: 99");
 
                     for (int i = 0; i < madedProjectsList.size(); i++) {
                         System.out.println(i + 1 + ":" + madedProjectsList.get(i));
 
                     }
-                    System.out.println("If it is empty type: 99");
 
                     command = scanner.nextInt();
                     int c = madedProjectsList.indexOf(madedProjectsList.get(command - 1));
-                    if (command == 99) {
+
+                if (command == 99) {
                         System.out.println("Back to start menu...");
 
-                    } else if (command == c+1 ){
-                       checkPaymentStatus(madedProjectsList,command,me,live);
-                       waitingPaymentProjects.add(madedProjectsList.get(c));
-                    }
 
-                    for (int i =0; i<waitingPaymentProjects.size();i++){
-                        if(waitingPaymentProjects.get(i)!=null && waitingPaymentProjects.get(i).getPaymentDelay()>0){
-                            waitingPaymentProjects.get(i).setPaymentDelay(waitingPaymentProjects.get(i).getPaymentDelay()-1);
-                            System.out.println(waitingPaymentProjects.get(i).getPaymentDelay());
-                        }
+                    } else if (command == c+1 ){
+                        waitingPaymentProjects.add(madedProjectsList.get(c));
+                       /* madedProjectsList.get(command - 1).
+                                setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).
+                                        daysToDeadline(live, madedProjectsList.get(command - 1)));*/
+                        System.out.println("Type anything to move on");
+                       checkPaymentStatus(madedProjectsList,command,me,live);
+                       updateDate(live);
+
+
                     }
 
                 }
 
 
+                for (Project p:projectArrayList
+                     ) {
+                    p.getCalendarDeadline().add(Calendar.DATE, 1);
+                }
+
 
 
             } catch (Exception e) {
-                scanner.next();
+                System.out.println("Heading back to start");
+
+
             }
 
 
@@ -211,7 +230,7 @@ public class Main {
     private static void setDeadlineForProject(ArrayList<Project> projectArrayList) {
         for (Project p : projectArrayList
         ) {
-            p.setDeadline();
+            p.setBasicDeadline();
         }
     }
 
@@ -241,10 +260,9 @@ public class Main {
         if (madedProjectsList.get(command - 1).getClient().equals(ClientTypes.FCKRS)) {
 
             if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-                madedProjectsList.get(command - 1).setPaymentDelay(madedProjectsList.get(command - 1).getPaymentDelay() - 1);
                 System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
             } else {
-                madedProjectsList.get(command - 1).setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).daysToDeadline(live, madedProjectsList.get(command - 1)));
+
                 if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
                     System.out.println("You submitted your project on time :) ");
                         me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
@@ -260,11 +278,9 @@ public class Main {
             }
         }else if(madedProjectsList.get(command-1).getClient().equals(ClientTypes.DEMANDING)){
             if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-
-                madedProjectsList.get(command-1).setPaymentDelay(madedProjectsList.get(command-1).getPaymentDelay() - 1);
                 System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
             } else {
-                madedProjectsList.get(command - 1).setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).daysToDeadline(live, madedProjectsList.get(command - 1)));
+
                 if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
                     System.out.println("You submitted your project on time :) ");
                     me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
@@ -280,10 +296,9 @@ public class Main {
             }
         }else if(madedProjectsList.get(command-1).getClient().equals(ClientTypes.LAZY)){
             if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-                madedProjectsList.get(command - 1).setPaymentDelay(madedProjectsList.get(command - 1).getPaymentDelay() - 1);
                 System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
             } else {
-                madedProjectsList.get(command - 1).setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).daysToDeadline(live, madedProjectsList.get(command - 1)));
+
                 if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
                     System.out.println("You submitted your project on time :) ");
                     me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
@@ -296,6 +311,23 @@ public class Main {
 
                 }
 
+            }
+        }
+        madedProjectsList.remove(madedProjectsList.get(command-1));
+    }
+
+    public static void checkPaymentDelay(ArrayList<Project> waitingPaymentProjects,Boss me){
+        for (int i =0; i<waitingPaymentProjects.size();i++){
+            if(waitingPaymentProjects.get(i)!=null && waitingPaymentProjects.get(i).getPaymentDelay()>0){
+                waitingPaymentProjects.get(i).setPaymentDelay(waitingPaymentProjects.get(i).getPaymentDelay()-1);
+                System.out.println("Days to payment: "+ waitingPaymentProjects.get(i).getPaymentDelay());
+                if(waitingPaymentProjects.get(i).getPaymentDelay() <=0){
+                    System.out.println("Your payment added successfully" + " cash Before: "+ me.getCash());
+                    me.setCash(waitingPaymentProjects.get(i).getClientPayment());
+                    System.out.println("Cash after: "+ me.getCash());
+
+                }
+                break;
             }
         }
     }

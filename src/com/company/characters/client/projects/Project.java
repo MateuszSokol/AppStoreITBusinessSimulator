@@ -114,7 +114,7 @@ public Integer workDaysAtProject;
 
     }
 
-    public void setDeadline() {
+    public void setBasicDeadline() {
 
         Calendar calendar = Calendar.getInstance();
 
@@ -125,17 +125,20 @@ public Integer workDaysAtProject;
 
         if(projectType.equals(ProjectType.ELABORATE)){
 
-//deadlin wiekszy niz ilosc dni potrzebnych na zrobineine projektu
             d = r.nextInt(3,5);
 
+            if(d<=workDaysAtProject)
+                d++;
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
             d = r.nextInt(4,6);
-
+            if(d<=workDaysAtProject)
+                d++;
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
             d = r.nextInt(5,7);
-
+            if(d<=workDaysAtProject)
+                d++;
             calendar.add(Calendar.DATE,d);
         }
 
@@ -175,6 +178,10 @@ public Integer workDaysAtProject;
 
     //default setters and getters
 
+
+    public void setCalendarDeadline() {
+        this.calendarDeadline.add(Calendar.DATE,1);
+    }
 
     public Boolean getAvoidCrossingDeadlinePunishment() {
         return avoidCrossingDeadlinePunishment;
