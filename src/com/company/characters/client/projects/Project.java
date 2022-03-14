@@ -15,14 +15,13 @@ public Integer workDaysAtProject;
     Double forfeitForCrossingDeadline;
     Integer workersAmount;
     ClientTypes client;
-    public Boolean isDone = false;
     public Boolean avoidCrossingDeadlinePunishment;
     Integer paymentDelay;
 
 
     public void setNeededAbilities(Project project) {
         Random random = new Random();
-        int a = 0;
+        int a;
         EnumSet<Abilities> abilitiesEnumSet = EnumSet.noneOf(Abilities.class);
 
         if (project.projectType == ProjectType.BEGINNER) {
@@ -76,7 +75,7 @@ public Integer workDaysAtProject;
        this.clientPayment = d;
     }
     public void calculateWorkerAmount(){
-        Integer i = 0;
+        int i = 0;
 
         if(projectType.equals(ProjectType.BEGINNER))
             i= 1;
@@ -128,19 +127,19 @@ public Integer workDaysAtProject;
 
 
             d = r.nextInt(2,4);
-            if (d >= workDaysAtProject) {
+            if (d <= workDaysAtProject) {
                 d+=2;
             }
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
             d = r.nextInt(2,4);
-            if (d >= workDaysAtProject) {
+            if (d <= workDaysAtProject) {
                 d+=2;
             }
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
             d = r.nextInt(2,4);
-            if (d >= workDaysAtProject) {
+            if (d <= workDaysAtProject) {
                 d+=2;
             }
             calendar.add(Calendar.DATE,d);
@@ -160,14 +159,17 @@ public Integer workDaysAtProject;
         Random r = new Random();
         int d = r.nextInt(1, 5);
 
-        if(d==1 && deadlineDays > -7){
+        if(d==1 && deadlineDays > -7 && client.equals(ClientTypes.LAZY)){
             this.avoidCrossingDeadlinePunishment = true;
-        }else{
+        }else if(deadlineDays>=0 && client.equals(ClientTypes.FCKRS) || client.equals(ClientTypes.DEMANDING)){
+            this.avoidCrossingDeadlinePunishment = true;
+        }
+        else{
             this.avoidCrossingDeadlinePunishment = false;
         }
     }
 
-    public void setPaymentDelay(){
+    public void setBasicPaymentDelay(){
         Random r = new Random();
         int d = r.nextInt(1,3);
         if(client.equals(ClientTypes.LAZY)|| client.equals(ClientTypes.FCKRS) && d == 1 ){
@@ -180,6 +182,21 @@ public Integer workDaysAtProject;
     //default setters and getters
 
 
+    public Boolean getAvoidCrossingDeadlinePunishment() {
+        return avoidCrossingDeadlinePunishment;
+    }
+
+    public Double getForfeitForCrossingDeadline() {
+        return forfeitForCrossingDeadline;
+    }
+
+    public void setPaymentDelay(Integer paymentDelay) {
+        this.paymentDelay = paymentDelay;
+    }
+
+    public Integer getPaymentDelay() {
+        return paymentDelay;
+    }
 
     public Double getClientPayment() {
         return clientPayment;
@@ -203,17 +220,11 @@ public Integer workDaysAtProject;
         return client;
     }
 
-    public void setForfeitForCrossingDeadline(Double forfeit){
-        this.forfeitForCrossingDeadline = forfeit;
-    }
 
-    public void setDone(Boolean done) {
-        isDone = done;
-    }
 
     public String toString(){
         return "Project Name: "+projectName + " Project Type: " + projectType + " Client payment: " + clientPayment + " Value of forfeit for crossing Deadline: " +
-                forfeitForCrossingDeadline + " Deadline:  " + calendarDeadline.getTime()+ " Amount of waiting days for payment: " + workersAmount +" Days needed: " + workDaysAtProject ;
+                forfeitForCrossingDeadline + " Deadline:  " + calendarDeadline.getTime()+ " Amount of waiting days for payment: " + paymentDelay +" Days needed: " + workDaysAtProject ;
     }
 
 

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Boss implements projectMaking {
-    String bossName;
     String bossLastName;
     Company company;
     TypesOfEmployee employeeType;
@@ -19,9 +18,7 @@ public class Boss implements projectMaking {
     public Abilities[] abilities;
 
 
-    public Boss(String bossName, String bossLastName, TypesOfEmployee typesOfEmployee) {
-
-        this.bossName = bossLastName;
+    public Boss(String bossLastName, TypesOfEmployee typesOfEmployee) {
         this.bossLastName = bossLastName;
         this.employeeType = typesOfEmployee;
         this.abilities = new Abilities[5];
