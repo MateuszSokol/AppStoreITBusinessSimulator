@@ -114,7 +114,7 @@ public class Boss implements projectMaking {
     public Double generateRandomCashAmount() {
         System.out.println("Generating random cash amount");
         Random random = new Random();
-        return (double) Math.round(random.nextDouble(10, 100));
+        return (double) Math.round(random.nextDouble(30, 100));
     }
 
 

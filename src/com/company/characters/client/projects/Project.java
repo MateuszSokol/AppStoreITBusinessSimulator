@@ -125,20 +125,23 @@ public Integer workDaysAtProject;
 
         if(projectType.equals(ProjectType.ELABORATE)){
 
-            d = r.nextInt(3,5);
+            d = r.nextInt(2,5);
 
-            if(d<=workDaysAtProject)
-                d++;
+                d+=workDaysAtProject;
+
+
             calendar.add(Calendar.DATE,d);
         }else if(projectType.equals(ProjectType.INTERMEDIATE)){
-            d = r.nextInt(4,6);
-            if(d<=workDaysAtProject)
-                d++;
+            d = r.nextInt(2,5);
+
+                d+=workDaysAtProject;
+
             calendar.add(Calendar.DATE,d);
         }else if (projectType.equals(ProjectType.BEGINNER)){
-            d = r.nextInt(5,7);
-            if(d<=workDaysAtProject)
-                d++;
+            d = r.nextInt(2,5);
+
+                d+=workDaysAtProject;
+
             calendar.add(Calendar.DATE,d);
         }
 
@@ -158,12 +161,14 @@ public Integer workDaysAtProject;
 
         if(d==1 && deadlineDays > -7 && client.equals(ClientTypes.LAZY)){
             this.avoidCrossingDeadlinePunishment = true;
-        }else if(deadlineDays>=0 && client.equals(ClientTypes.FCKRS) || client.equals(ClientTypes.DEMANDING)){
+        }else if(deadlineDays>=0 && client.equals(ClientTypes.FCKRS) || client.equals(ClientTypes.DEMANDING)
+                || client.equals(ClientTypes.LAZY)){
             this.avoidCrossingDeadlinePunishment = true;
         }
         else{
             this.avoidCrossingDeadlinePunishment = false;
         }
+        System.out.println(deadlineDays);
     }
 
     public void setBasicPaymentDelay(){

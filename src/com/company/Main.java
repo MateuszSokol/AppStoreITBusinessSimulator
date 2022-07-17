@@ -4,7 +4,6 @@ import com.company.characters.Boss;
 import com.company.characters.employee.TypesOfEmployee;
 import com.company.characters.client.ClientTypes;
 import com.company.characters.client.projects.*;
-
 import java.util.*;
 
 
@@ -23,8 +22,9 @@ public class Main {
         int turnCounter = 1;
 
 
+
         ArrayList<Project> bossProjectList = new ArrayList<>();
-        ArrayList<Project> madedProjectsList = new ArrayList<>();
+        ArrayList<Project> madeProjectList = new ArrayList<>();
         Boss me = new Boss("Sprout", TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
         me.setCompany(null);
@@ -46,30 +46,45 @@ public class Main {
         //info about character
         System.out.println("Your type: " + me.getEmployeeType());
         me.showAbilities();
-        System.out.println("Cash: " + me.getCash());
-        live.set(2020, Calendar.JANUARY, 1);
+
 
 
         addClientToProject(projectArrayList);
-        /*System.out.println(projectArrayList.size()/3);*/
+
+
 
         System.out.println("You are on your own now lets get some money and hire some employee, or maybe open a company? ");
 
 
         System.out.println("Each action take one turn");
 
+
+
+
         while (true) {
 
 
+            for (Project p : projectArrayList
+            ) {
+                p.setBasicDeadline();
+            }
 
-            if (checkIfIsItWeekend(live.get(Calendar.DATE))) {
+            if (checkIfIsItWeekend(live.get(Calendar.DAY_OF_WEEK))) {
                 System.out.println("Its weekend your employees don't work" + "\n" + "You can make project on your own");
             } else {
                 System.out.println("Its workday your employees work" + "\n" + "You can make project on your own");
             }
+            double cashBeforeTaxes = me.getCash();
+            me.setCash(me.getCash()-5);
+            System.out.println("Expenses take u 10$, your balance was:  " + cashBeforeTaxes + " after is : " + me.getCash());
             boolean checkProject;
+            if(me.getCash()<=0){
+                System.out.println("You lost, try again");
+                break;
+            }
             try {
                 Scanner scanner = new Scanner(System.in);
+
                 System.out.println("""
                         0: Exit
                         1: Pick project
@@ -80,7 +95,9 @@ public class Main {
 
                 System.out.println("Turn: " + turnCounter);
                 System.out.println(live.getTime());
+
                 int command = scanner.nextInt();
+
 
                 if (command == 0) {
                     break;
@@ -111,21 +128,21 @@ public class Main {
                                 projectArrayList.remove(command - 1);
                                 turnCounter++;
                                 updateDate(live);
-                                checkPaymentDelay(waitingPaymentProjects,me);
+                                checkPaymentDelay(waitingPaymentProjects, me);
                             }
                         } else {
                             me.getProjectList().add(projectArrayList.get(command - 1));
                             projectArrayList.remove(command - 1);
                             turnCounter++;
                             updateDate(live);
-                            checkPaymentDelay(waitingPaymentProjects,me);
+                            checkPaymentDelay(waitingPaymentProjects, me);
                         }
                     } else {
                         System.out.println("bad input");
                     }
                 } else if (command == 2) {
 
-                    checkPaymentDelay(waitingPaymentProjects,me);
+                    checkPaymentDelay(waitingPaymentProjects, me);
 
                     updateDate(live);
 
@@ -153,64 +170,54 @@ public class Main {
                         int c = bossProjectList.indexOf(bossProjectList.get(command - 1));
 
                         if (command == c + 1) {
-                            me.makeWork(bossProjectList, madedProjectsList, checkProject, command);
+                            me.makeWork(bossProjectList, madeProjectList, checkProject, command);
                         }
                         turnCounter++;
                         updateDate(live);
-                        checkPaymentDelay(waitingPaymentProjects,me);
+                        checkPaymentDelay(waitingPaymentProjects, me);
                     }
 
                 } else if (command == 5) {
                     System.out.println("Type project index to submit project");
                     System.out.println("If it is empty type: 99");
 
-                    for (int i = 0; i < madedProjectsList.size(); i++) {
-                        System.out.println(i + 1 + ":" + madedProjectsList.get(i));
+                    for (int i = 0; i < madeProjectList.size(); i++) {
+                        System.out.println(i + 1 + ":" + madeProjectList.get(i));
 
                     }
 
                     command = scanner.nextInt();
-                    int c = madedProjectsList.indexOf(madedProjectsList.get(command - 1));
+                    int c = madeProjectList.indexOf(madeProjectList.get(command - 1));
 
-                if (command == 99) {
+                    if (command == 99) {
                         System.out.println("Back to start menu...");
 
 
-                    } else if (command == c+1 ){
-                        waitingPaymentProjects.add(madedProjectsList.get(c));
-                       /* madedProjectsList.get(command - 1).
-                                setAvoidCrossingDeadlinePunishment(madedProjectsList.get(command - 1).
-                                        daysToDeadline(live, madedProjectsList.get(command - 1)));*/
-                        System.out.println("Type anything to move on");
-                       checkPaymentStatus(madedProjectsList,command,me,live);
-                       updateDate(live);
+                    } else if (command == c + 1) {
+                        /*waitingPaymentProjects.add(madeProjectList.get(c));*/
+                        madeProjectList.get(command - 1).
+                                setAvoidCrossingDeadlinePunishment(madeProjectList.get(command - 1).
+                                        daysToDeadline(live, madeProjectList.get(command - 1)));
+                        checkPaymentStatus(madeProjectList, waitingPaymentProjects, command, me, live);
+                        updateDate(live);
 
 
                     }
 
                 }
-
-
-                for (Project p:projectArrayList
-                     ) {
-                    p.getCalendarDeadline().add(Calendar.DATE, 1);
-                }
-
 
 
             } catch (Exception e) {
                 System.out.println("Heading back to start");
 
-
             }
-
 
         }
     }
 
     private static void updateDate(Calendar calendar) {
 
-        calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.DAY_OF_WEEK, 1);
     }
 
     private static void returnProjectList(ArrayList<Project> arrayList) {
@@ -256,75 +263,47 @@ public class Main {
 
     }
 
-    private static void checkPaymentStatus(ArrayList<Project> madedProjectsList, Integer command, Boss me, Calendar live) {
-        if (madedProjectsList.get(command - 1).getClient().equals(ClientTypes.FCKRS)) {
+    private static void checkPaymentStatus(ArrayList<Project> madeProjectList, ArrayList<Project> waitingPaymentProjects, Integer command, Boss me, Calendar live) {
 
-            if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-                System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
+
+            if (madeProjectList.get(command - 1).getPaymentDelay() > 0) {
+                System.out.println("Days left to payment: " + madeProjectList.get(command - 1).getPaymentDelay());
+                if (madeProjectList.get(command - 1).daysToDeadline(live, madeProjectList.get(command - 1)) < 0) {
+                    System.out.println("You are late!!!!!");
+                    me.setCash(madeProjectList.get(command - 1).getForfeitForCrossingDeadline());
+                }else{
+                    System.out.println("You are on time waiting for payment");
+                }
+
             } else {
 
-                if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
+                if (madeProjectList.get(command - 1).getAvoidCrossingDeadlinePunishment()) {
                     System.out.println("You submitted your project on time :) ");
-                        me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
+                    me.addPaymentToBossIfProjectIsReady(madeProjectList, command);
 
-                }else{
+                } else {
                     System.out.println("You are late :/" + " You must pay forfeit: " +
-                            madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
-                    me.setCash(madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
-                    me.addPaymentToBossIfProjectIsReady(madedProjectsList,command);
+                            madeProjectList.get(command - 1).getForfeitForCrossingDeadline());
+                    me.setCash(madeProjectList.get(command - 1).getForfeitForCrossingDeadline());
+                    me.addPaymentToBossIfProjectIsReady(madeProjectList, command);
 
                 }
 
             }
-        }else if(madedProjectsList.get(command-1).getClient().equals(ClientTypes.DEMANDING)){
-            if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-                System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
-            } else {
 
-                if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
-                    System.out.println("You submitted your project on time :) ");
-                    me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
-
-                }else{
-                    System.out.println("You are late :/" + " You must pay forfeit: " +
-                            madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
-                    me.setCash(madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
-                    me.addPaymentToBossIfProjectIsReady(madedProjectsList,command);
-
-                }
-
-            }
-        }else if(madedProjectsList.get(command-1).getClient().equals(ClientTypes.LAZY)){
-            if (madedProjectsList.get(command - 1).getPaymentDelay() > 0) {
-                System.out.println("Days left to payment: " + madedProjectsList.get(command - 1).getPaymentDelay());
-            } else {
-
-                if(madedProjectsList.get(command - 1).getAvoidCrossingDeadlinePunishment()){
-                    System.out.println("You submitted your project on time :) ");
-                    me.addPaymentToBossIfProjectIsReady(madedProjectsList, command);
-
-                }else{
-                    System.out.println("You are late :/" + " You must pay forfeit: " +
-                            madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
-                    me.setCash(madedProjectsList.get(command-1).getForfeitForCrossingDeadline());
-                    me.addPaymentToBossIfProjectIsReady(madedProjectsList,command);
-
-                }
-
-            }
-        }
-        madedProjectsList.remove(madedProjectsList.get(command-1));
+        waitingPaymentProjects.add(madeProjectList.get(command - 1));
+        madeProjectList.remove(madeProjectList.get(command - 1));
     }
 
-    public static void checkPaymentDelay(ArrayList<Project> waitingPaymentProjects,Boss me){
-        for (int i =0; i<waitingPaymentProjects.size();i++){
-            if(waitingPaymentProjects.get(i)!=null && waitingPaymentProjects.get(i).getPaymentDelay()>0){
-                waitingPaymentProjects.get(i).setPaymentDelay(waitingPaymentProjects.get(i).getPaymentDelay()-1);
-                System.out.println("Days to payment: "+ waitingPaymentProjects.get(i).getPaymentDelay());
-                if(waitingPaymentProjects.get(i).getPaymentDelay() <=0){
-                    System.out.println("Your payment added successfully" + " cash Before: "+ me.getCash());
+    public static void checkPaymentDelay(ArrayList<Project> waitingPaymentProjects, Boss me) {
+        for (int i = 0; i < waitingPaymentProjects.size(); i++) {
+            if (waitingPaymentProjects.get(i) != null && waitingPaymentProjects.get(i).getPaymentDelay() > 0) {
+                waitingPaymentProjects.get(i).setPaymentDelay(waitingPaymentProjects.get(i).getPaymentDelay() - 1);
+                System.out.println("Days to payment: " + waitingPaymentProjects.get(i).getPaymentDelay());
+                if (waitingPaymentProjects.get(i).getPaymentDelay() <= 0) {
+                    System.out.println("Your payment added successfully" + " cash Before: " + me.getCash());
                     me.setCash(waitingPaymentProjects.get(i).getClientPayment());
-                    System.out.println("Cash after: "+ me.getCash());
+                    System.out.println("Cash after: " + me.getCash());
 
                 }
                 break;
