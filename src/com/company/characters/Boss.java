@@ -8,8 +8,7 @@ import com.company.projectMaking;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Boss implements projectMaking {
-    String bossLastName;
+public class Boss extends Person implements projectMaking {
     Company company;
     TypesOfEmployee employeeType;
     Double cash;
@@ -17,9 +16,8 @@ public class Boss implements projectMaking {
     public ArrayList<Project> projectList;
     public Abilities[] abilities;
 
-
-    public Boss(String bossLastName, TypesOfEmployee typesOfEmployee) {
-        this.bossLastName = bossLastName;
+    public Boss(String firstName, String lastName, String nationality, String gender, int age, TypesOfEmployee typesOfEmployee) {
+        super(firstName, lastName, nationality, gender, age);
         this.employeeType = typesOfEmployee;
         this.abilities = new Abilities[5];
     }
@@ -87,7 +85,7 @@ public class Boss implements projectMaking {
     }
 
     @Override
-    public void makeWork(ArrayList<Project> projectList, ArrayList<Project> madeProjectList, boolean canDoIt, int command) throws InterruptedException {
+    public void makeAProject(ArrayList<Project> projectList, ArrayList<Project> madeProjectList, boolean canDoIt, int command) throws InterruptedException {
         if (canDoIt) {
             System.out.println("Project in progress");
             Thread.sleep(2000);

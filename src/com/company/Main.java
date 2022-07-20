@@ -25,7 +25,7 @@ public class Main {
 
         ArrayList<Project> bossProjectList = new ArrayList<>();
         ArrayList<Project> madeProjectList = new ArrayList<>();
-        Boss me = new Boss("Sprout", TypesOfEmployee.BOSS);
+        Boss me = new Boss("Mathew","Broccoli", "Sweden","male",25,TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
         me.setCompany(null);
 
@@ -62,8 +62,13 @@ public class Main {
 
 
         while (true) {
+            System.out.println("Turn: " + turnCounter);
+            System.out.println(live.getTime());
+            double cashBeforeTaxes = me.getCash();
+            me.setCash(me.getCash()-5);
+            System.out.println("Expenses take u 5$, your balance was:  " + cashBeforeTaxes + " after is : " + me.getCash());
 
-
+            turnCounter++;
             for (Project p : projectArrayList
             ) {
                 p.setBasicDeadline();
@@ -74,9 +79,7 @@ public class Main {
             } else {
                 System.out.println("Its workday your employees work" + "\n" + "You can make project on your own");
             }
-            double cashBeforeTaxes = me.getCash();
-            me.setCash(me.getCash()-5);
-            System.out.println("Expenses take u 10$, your balance was:  " + cashBeforeTaxes + " after is : " + me.getCash());
+
             boolean checkProject;
             if(me.getCash()<=0){
                 System.out.println("You lost, try again");
@@ -91,10 +94,12 @@ public class Main {
                         2: Choose an employee
                         3: Make project on your own
                         4: Fire an employee
-                        5: submit project""");
+                        5: submit project
+                        6: Hire an employee""");
 
-                System.out.println("Turn: " + turnCounter);
-                System.out.println(live.getTime());
+
+
+
 
                 int command = scanner.nextInt();
 
@@ -133,11 +138,11 @@ public class Main {
                         } else {
                             me.getProjectList().add(projectArrayList.get(command - 1));
                             projectArrayList.remove(command - 1);
-                            turnCounter++;
-                            updateDate(live);
+
                             checkPaymentDelay(waitingPaymentProjects, me);
                         }
                     } else {
+                        turnCounter--;
                         System.out.println("bad input");
                     }
                 } else if (command == 2) {
@@ -159,6 +164,7 @@ public class Main {
                     command = scanner.nextInt();
                     if (command == 99) {
                         System.out.println("Back to start menu...");
+                        turnCounter--;
                         Thread.sleep(2000);
                     } else {
                         System.out.println("Pick project: " + "\n" + "if you don't have ability you can't make it and your day is waste");
@@ -170,7 +176,7 @@ public class Main {
                         int c = bossProjectList.indexOf(bossProjectList.get(command - 1));
 
                         if (command == c + 1) {
-                            me.makeWork(bossProjectList, madeProjectList, checkProject, command);
+                            me.makeAProject(bossProjectList, madeProjectList, checkProject, command);
                         }
                         turnCounter++;
                         updateDate(live);
@@ -192,6 +198,7 @@ public class Main {
                     if (command == 99) {
                         System.out.println("Back to start menu...");
 
+                        turnCounter--;
 
                     } else if (command == c + 1) {
                         /*waitingPaymentProjects.add(madeProjectList.get(c));*/
@@ -204,13 +211,20 @@ public class Main {
 
                     }
 
+
+                }else if(command == 6){
+                    System.out.println("Choose employee to hire: ");
+                   // ------------------- add code here
                 }
 
 
             } catch (Exception e) {
                 System.out.println("Heading back to start");
+                me.setCash(me.getCash()+5);
+                turnCounter--;
 
             }
+
 
         }
     }
