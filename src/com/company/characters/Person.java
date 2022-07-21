@@ -4,15 +4,13 @@ public abstract class Person {
     private String firstName;
     private String lastName;
     private String nationality;
-    private String gender;
     private int age;
 
 
-    public Person(String firstName, String lastName, String nationality, String gender, int age) {
+    public Person(String firstName, String lastName, String nationality, int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.nationality = nationality;
-        this.gender = gender;
         this.age = age;
     }
 
@@ -32,10 +30,6 @@ public abstract class Person {
         this.nationality = nationality;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -48,9 +42,6 @@ public abstract class Person {
         return nationality;
     }
 
-    public String isGender() {
-        return gender;
-    }
 
     public int getAge() {
         return age;

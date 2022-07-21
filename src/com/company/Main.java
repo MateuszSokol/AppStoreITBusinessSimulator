@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.characters.Boss;
+import com.company.characters.employee.Employee;
 import com.company.characters.employee.TypesOfEmployee;
 import com.company.characters.client.ClientTypes;
 import com.company.characters.client.projects.*;
@@ -25,7 +26,12 @@ public class Main {
 
         ArrayList<Project> bossProjectList = new ArrayList<>();
         ArrayList<Project> madeProjectList = new ArrayList<>();
-        Boss me = new Boss("Mathew","Broccoli", "Sweden","male",25,TypesOfEmployee.BOSS);
+        ArrayList<Employee> employeesList = new ArrayList<>();
+
+
+
+
+        Boss me = new Boss("Mathew","Broccoli", "Sweden",25,TypesOfEmployee.BOSS);
         me.setNumberOfEmployee(0);
         me.setCompany(null);
 
@@ -47,6 +53,19 @@ public class Main {
         System.out.println("Your type: " + me.getEmployeeType());
         me.showAbilities();
 
+        //create employee
+
+        for (int i = 0; i <10; i++) {
+            Employee employee = new Employee(Employee.addRandomEmployeeFirstName(),Employee.addRandomEmployeeLastNameFromEnum(),
+                    Employee.addRandomEmployeeNationality(),Employee.addRandomEmployeeAge(),Employee.addRandomEmployeeBid(), Employee.addRandomTypesOfEmployeeFromEnum());
+            employeesList.add(employee);
+
+        }
+
+        for (Employee e:employeesList
+             ) {
+            System.out.println(e.getAge());
+        }
 
 
         addClientToProject(projectArrayList);
@@ -68,6 +87,7 @@ public class Main {
             me.setCash(me.getCash()-5);
             System.out.println("Expenses take u 5$, your balance was:  " + cashBeforeTaxes + " after is : " + me.getCash());
 
+            updateDate(live);
             turnCounter++;
             for (Project p : projectArrayList
             ) {
@@ -222,6 +242,7 @@ public class Main {
                 System.out.println("Heading back to start");
                 me.setCash(me.getCash()+5);
                 turnCounter--;
+                updateDate(live,-1);
 
             }
 
@@ -232,6 +253,9 @@ public class Main {
     private static void updateDate(Calendar calendar) {
 
         calendar.add(Calendar.DAY_OF_WEEK, 1);
+    }
+    private static void updateDate(Calendar calendar,int counter){
+        calendar.add(Calendar.DAY_OF_WEEK,counter);
     }
 
     private static void returnProjectList(ArrayList<Project> arrayList) {

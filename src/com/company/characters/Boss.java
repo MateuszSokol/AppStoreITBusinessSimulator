@@ -16,8 +16,8 @@ public class Boss extends Person implements projectMaking {
     public ArrayList<Project> projectList;
     public Abilities[] abilities;
 
-    public Boss(String firstName, String lastName, String nationality, String gender, int age, TypesOfEmployee typesOfEmployee) {
-        super(firstName, lastName, nationality, gender, age);
+    public Boss(String firstName, String lastName, String nationality,int age, TypesOfEmployee typesOfEmployee) {
+        super(firstName, lastName, nationality, age);
         this.employeeType = typesOfEmployee;
         this.abilities = new Abilities[5];
     }
